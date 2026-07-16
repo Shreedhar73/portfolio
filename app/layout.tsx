@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { Unbounded, Figtree, JetBrains_Mono } from 'next/font/google';
+import { Bricolage_Grotesque, Figtree, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
-const display = Unbounded({
+const display = Bricolage_Grotesque({
   subsets: ['latin'],
   variable: '--font-display',
   weight: 'variable',

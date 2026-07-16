@@ -1,20 +1,11 @@
 import ThemeToggle from '@/components/ThemeToggle';
-import {
-  Typewriter,
-  Namaste,
-  KtmClock,
-  ScrollProgress,
-  CursorBlob,
-  Reveal,
-  Tilt,
-} from '@/components/Fun';
-import { profile, roles, stats, projects, experience, skills, education } from '@/data/resume';
+import { KtmClock, ScrollProgress, Reveal } from '@/components/Fun';
+import { profile, stats, projects, experience, skills, education } from '@/data/resume';
 
 export default function Home() {
   return (
     <>
       <ScrollProgress />
-      <CursorBlob />
 
       <div className="nav-shell">
         <nav>
@@ -41,63 +32,46 @@ export default function Home() {
       </div>
 
       <header id="top" className="wrap hero">
-        <Namaste />
+        <div className="greeting pop">नमस्ते — I&apos;m Shreedhar</div>
         <h1 className="pop" style={{ ['--d' as string]: '.08s' }}>
-          I make software that&apos;s <span className="grad">actually fun</span> to use.
+          Software built <em>offline-first</em>, shipped on time.
         </h1>
-        <div className="pop" style={{ ['--d' as string]: '.16s' }}>
-          <Typewriter words={roles} />
-        </div>
-        <p className="sub pop" style={{ ['--d' as string]: '.24s' }}>
-          {profile.name} — software engineer in Kathmandu. 4+ years shipping Flutter apps with
-          offline-first sync, NestJS + React platforms, and AI features that earn their place.
-          Currently building a case management platform for UNFPA.
+        <p className="sub pop" style={{ ['--d' as string]: '.16s' }}>
+          Software engineer in Kathmandu with 4+ years across mobile and full-stack — Flutter
+          apps with offline-first sync, NestJS + React platforms, and generative AI features
+          that earn their place. Currently building a case management platform for UNFPA.
         </p>
-        <div className="cta-row pop" style={{ ['--d' as string]: '.32s' }}>
+        <div className="cta-row pop" style={{ ['--d' as string]: '.24s' }}>
           <a className="btn solid" href="#work">
-            See my work ↓
+            See my work
           </a>
           <a className="btn ghost" href={`mailto:${profile.email}`}>
-            Say hello 👋
+            Get in touch
           </a>
         </div>
       </header>
 
       <div className="wrap bento">
-        <div className="tile teal pop" style={{ ['--d' as string]: '.4s' }}>
-          <div className="label">Local time — Kathmandu 🇳🇵</div>
+        <div className="tile pop" style={{ ['--d' as string]: '.3s' }}>
+          <div className="label">Local time — Kathmandu</div>
           <KtmClock />
-          <div className="label mono">UTC+5:45, yes really</div>
+          <div className="label mono">UTC+5:45</div>
         </div>
         {stats.map((s, i) => (
-          <div key={s.label} className="tile mango pop" style={{ ['--d' as string]: `${0.46 + i * 0.06}s` }}>
+          <div key={s.label} className="tile pop" style={{ ['--d' as string]: `${0.36 + i * 0.06}s` }}>
             <div className="big">{s.value}</div>
             <div className="label">{s.label}</div>
           </div>
         ))}
-        <div className="tile rhodo wide pop" style={{ ['--d' as string]: '.72s' }}>
+        <div className="tile wide pop" style={{ ['--d' as string]: '.6s' }}>
           <div className="label">Currently</div>
           <div>
             Leading full-stack delivery of the <strong>UNFPA Safehouse platform</strong> — and
-            when properly offline, walking Himalayan trails. ⛰️
+            when properly offline, walking Himalayan trails.
           </div>
           <a className="tile-link" href="#work">
             What I&apos;m shipping →
           </a>
-        </div>
-      </div>
-
-      <div className="marquee" aria-hidden="true">
-        <div className="track">
-          {[0, 1].map((n) => (
-            <span key={n} className="item">
-              {skills.map((s) => (
-                <span key={s} className="item">
-                  {s}
-                </span>
-              ))}
-            </span>
-          ))}
         </div>
       </div>
 
@@ -109,31 +83,33 @@ export default function Home() {
           </Reveal>
           <div className="projects">
             {projects.map((p, i) => (
-              <Reveal key={p.name} delay={(i % 2) * 0.08}>
-                <Tilt className={p.spotlight ? 'card spotlight' : 'card'} accent={p.accent}>
-                  <h3>
-                    {p.name}
-                    {p.badge && <span className="badge">{p.badge}</span>}
-                  </h3>
-                  <div className="role">{p.role}</div>
-                  <p>{p.description}</p>
-                  <div className="tag-row">
-                    {p.tags.map((t) => (
-                      <span key={t} className="tag">
-                        {t}
-                      </span>
+              <Reveal
+                key={p.name}
+                className={p.spotlight ? 'card spotlight' : 'card'}
+                delay={(i % 2) * 0.08}
+              >
+                <h3>
+                  {p.name}
+                  {p.badge && <span className="badge">{p.badge}</span>}
+                </h3>
+                <div className="role">{p.role}</div>
+                <p>{p.description}</p>
+                <div className="tag-row">
+                  {p.tags.map((t) => (
+                    <span key={t} className="tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                {p.links.length > 0 && (
+                  <div className="links">
+                    {p.links.map((l) => (
+                      <a key={l.href} href={l.href} rel="noopener">
+                        {l.label} ↗
+                      </a>
                     ))}
                   </div>
-                  {p.links.length > 0 && (
-                    <div className="links">
-                      {p.links.map((l) => (
-                        <a key={l.href} href={l.href} rel="noopener">
-                          {l.label} ↗
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </Tilt>
+                )}
               </Reveal>
             ))}
           </div>
@@ -164,7 +140,7 @@ export default function Home() {
         <section id="skills">
           <Reveal className="sec-head">
             <h2>Toolbox</h2>
-            <span className="count mono">hover around, they&apos;re ticklish</span>
+            <span className="count mono">daily drivers</span>
           </Reveal>
           <Reveal className="skill-cloud">
             {skills.map((s) => (
@@ -185,7 +161,7 @@ export default function Home() {
 
         <Reveal>
           <div id="contact" className="contact-box">
-            <h2>Let&apos;s build something people keep on their home screen.</h2>
+            <h2>Have a product that needs to survive bad networks and good ideas?</h2>
             <p>
               Flutter, full-stack architecture, AI features that earn their place — or the best
               trekking season in Nepal. All valid reasons to write.
