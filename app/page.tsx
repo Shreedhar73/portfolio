@@ -1,4 +1,5 @@
 import ThemeToggle from '@/components/ThemeToggle';
+import Customizer from '@/components/Customizer';
 import { KtmClock, ScrollProgress, Reveal } from '@/components/Fun';
 import { profile, stats, projects, experience, skills, education } from '@/data/resume';
 
@@ -6,6 +7,7 @@ export default function Home() {
   return (
     <>
       <ScrollProgress />
+      <Customizer />
 
       <div className="nav-shell">
         <nav>

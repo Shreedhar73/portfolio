@@ -1,22 +1,22 @@
 import type { Metadata } from 'next';
-import { Bricolage_Grotesque, Figtree, JetBrains_Mono } from 'next/font/google';
+import {
+  Bricolage_Grotesque,
+  Figtree,
+  JetBrains_Mono,
+  Fraunces,
+  Source_Sans_3,
+  Sora,
+  Onest,
+} from 'next/font/google';
 import './globals.css';
 
-const display = Bricolage_Grotesque({
-  subsets: ['latin'],
-  variable: '--font-display',
-  weight: 'variable',
-});
-const body = Figtree({
-  subsets: ['latin'],
-  variable: '--font-body',
-  weight: 'variable',
-});
-const mono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  weight: 'variable',
-});
+const bricolage = Bricolage_Grotesque({ subsets: ['latin'], variable: '--f-bricolage', weight: 'variable' });
+const figtree = Figtree({ subsets: ['latin'], variable: '--f-figtree', weight: 'variable' });
+const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--f-mono', weight: 'variable' });
+const fraunces = Fraunces({ subsets: ['latin'], variable: '--f-fraunces', weight: 'variable' });
+const sourceSans = Source_Sans_3({ subsets: ['latin'], variable: '--f-source', weight: 'variable' });
+const sora = Sora({ subsets: ['latin'], variable: '--f-sora', weight: 'variable' });
+const onest = Onest({ subsets: ['latin'], variable: '--f-onest', weight: 'variable' });
 
 export const metadata: Metadata = {
   title: 'Shreedhar Pandeya — Software Engineer',
@@ -24,18 +24,27 @@ export const metadata: Metadata = {
     'Shreedhar Pandeya — software engineer in Kathmandu building offline-first Flutter apps and full-stack platforms with NestJS, React, and generative AI.',
 };
 
-const themeInit = `
+const prefsInit = `
 try {
+  var root = document.documentElement;
   var t = localStorage.getItem('theme');
-  if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+  if (t === 'dark' || t === 'light') root.dataset.theme = t;
+  var s = localStorage.getItem('scheme');
+  if (s) root.dataset.scheme = s;
+  var f = localStorage.getItem('fontpair');
+  if (f) root.dataset.font = f;
 } catch (e) {}
 `;
+
+const fontVars = [bricolage, figtree, mono, fraunces, sourceSans, sora, onest]
+  .map((f) => f.variable)
+  .join(' ');
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${display.variable} ${body.variable} ${mono.variable}`}>
-        <script dangerouslySetInnerHTML={{ __html: themeInit }} />
+      <body className={fontVars}>
+        <script dangerouslySetInnerHTML={{ __html: prefsInit }} />
         {children}
       </body>
     </html>
