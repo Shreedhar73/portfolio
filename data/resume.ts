@@ -7,6 +7,22 @@ export const profile = {
   playStore: 'https://play.google.com/store/apps/details?id=com.onlyever',
 };
 
+export const roles = [
+  'Flutter apps',
+  'NestJS backends',
+  'offline-first sync',
+  'generative AI features',
+  'React frontends',
+  'apps people keep',
+];
+
+export const stats = [
+  { value: '4+', label: 'years shipping' },
+  { value: '6', label: 'products in production' },
+  { value: '2', label: 'app stores, zero rejections' },
+  { value: '8', label: 'local govts on one app' },
+];
+
 export type Project = {
   name: string;
   role: string;
@@ -14,6 +30,7 @@ export type Project = {
   description: string;
   tags: string[];
   links: { label: string; href: string }[];
+  accent: 'mango' | 'rhodo' | 'teal';
   spotlight?: boolean;
 };
 
@@ -23,6 +40,7 @@ export const projects: Project[] = [
     role: 'Full-stack developer · YoungInnovations · current',
     badge: 'IN DEVELOPMENT',
     spotlight: true,
+    accent: 'rhodo',
     description:
       'Case management platform for UNFPA digitizing safehouse workflows for gender-based violence survivors in Nepal. Covers the full case lifecycle — consent, survivor intake, assessments, safety plans, referrals, follow-ups, and closure — behind role-based access across three privilege levels. Fully bilingual English/Nepali interface with an error-key contract so every API error maps to a localized, human message. Privacy-first by design.',
     tags: ['NestJS', 'Prisma', 'PostgreSQL', 'React', 'TypeScript', 'i18next', 'Zod'],
@@ -33,6 +51,7 @@ export const projects: Project[] = [
     role: 'Lead developer · YoungInnovations',
     badge: 'LIVE',
     spotlight: true,
+    accent: 'mango',
     description:
       'Subscription e-learning platform built around active review and recall. Millions of learning sources and curated courses, with AI-powered generation of learning cards, summaries, and practice materials. I own the offline-first Flutter app end to end — architecture, MongoDB-backed sync, flavors, releases, and store compliance on both platforms.',
     tags: ['Flutter', 'Bloc', 'MongoDB', 'Firebase', 'Generative AI', 'Offline-first'],
@@ -44,6 +63,7 @@ export const projects: Project[] = [
   {
     name: 'नागरिक सहभागिता (Citizen Participation)',
     role: 'Developer · deployed for 8 local governments',
+    accent: 'teal',
     description:
       'ICT support app for local bodies in Nepal. Citizens submit text or audio grievances to their local government and track status, with updates delivered by email. Built once, deployed for eight municipalities.',
     tags: ['Flutter', 'Civic tech', 'Audio', 'Email notifications'],
@@ -54,6 +74,7 @@ export const projects: Project[] = [
   {
     name: 'Municipal Association of Nepal',
     role: 'Developer · client: MuAN',
+    accent: 'teal',
     description:
       'Mobile app for the association that advocates for Nepal’s municipalities. Publishes the decisions and interests of every member municipality — transparency as the product.',
     tags: ['Flutter', 'Gov & advocacy'],
@@ -64,6 +85,7 @@ export const projects: Project[] = [
   {
     name: 'Level Up (25hours Hotels)',
     role: 'Developer · Miracle Interface',
+    accent: 'mango',
     description:
       'Invite-only app for a luxury hotel chain in Singapore, Malaysia, and Japan. Members order products, reserve dining and services, and catch flash sales. Stripe payments, multi-language, local caching.',
     tags: ['Flutter', 'Stripe', 'i18n'],
@@ -74,6 +96,7 @@ export const projects: Project[] = [
   {
     name: 'Generation tooling (npm)',
     role: 'Author · internal developer tools',
+    accent: 'rhodo',
     description:
       'npm packages that automate the boring parts — code generation, content generation, and scaffolding of recurring project components — so teams start features from a working baseline, not a blank file.',
     tags: ['Node.js', 'TypeScript', 'Codegen'],
@@ -121,27 +144,31 @@ export const experience: Job[] = [
   },
 ];
 
-export const skillGroups: { title: string; items: string[] }[] = [
-  {
-    title: 'Mobile',
-    items: ['Flutter', 'Dart', 'Bloc', 'Clean Architecture', 'Firebase', 'Offline-first design'],
-  },
-  {
-    title: 'Frontend',
-    items: ['React', 'TypeScript', 'TanStack Router/Query', 'React Hook Form', 'Zod', 'Tailwind CSS', 'i18next'],
-  },
-  {
-    title: 'Backend',
-    items: ['Node.js', 'NestJS', 'Prisma', 'REST / OpenAPI', 'JWT / Passport', 'RBAC'],
-  },
-  {
-    title: 'Data & cloud',
-    items: ['PostgreSQL', 'MongoDB', 'SQLite', 'Realm', 'Qdrant', 'AWS'],
-  },
-  {
-    title: 'AI & practice',
-    items: ['Generative AI integration', 'Claude Code / agentic tooling', 'Store releases', 'Code review', 'Mentoring'],
-  },
+export const skills = [
+  'Flutter',
+  'Dart',
+  'Bloc',
+  'Clean Architecture',
+  'Firebase',
+  'React',
+  'TypeScript',
+  'TanStack',
+  'Zod',
+  'NestJS',
+  'Prisma',
+  'PostgreSQL',
+  'MongoDB',
+  'Node.js',
+  'REST / OpenAPI',
+  'JWT / RBAC',
+  'SQLite',
+  'Realm',
+  'Qdrant',
+  'AWS',
+  'Generative AI',
+  'Claude Code',
+  'i18next',
+  'Offline-first',
 ];
 
 export const education = [

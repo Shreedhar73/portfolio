@@ -1,212 +1,211 @@
-import Contours from '@/components/Contours';
 import ThemeToggle from '@/components/ThemeToggle';
-import { profile, projects, experience, skillGroups, education } from '@/data/resume';
-
-function Section({
-  id,
-  label,
-  sub,
-  className,
-  children,
-}: {
-  id?: string;
-  label: string;
-  sub: string;
-  className?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className={className}>
-      <div className="wrap sec-grid">
-        <div className="sec-label">
-          <div className="eyebrow">{label}</div>
-          <small>{sub}</small>
-        </div>
-        {children}
-      </div>
-    </section>
-  );
-}
+import {
+  Typewriter,
+  Namaste,
+  KtmClock,
+  ScrollProgress,
+  CursorBlob,
+  Reveal,
+  Tilt,
+} from '@/components/Fun';
+import { profile, roles, stats, projects, experience, skills, education } from '@/data/resume';
 
 export default function Home() {
   return (
     <>
-      <nav>
-        <div className="wrap">
-          <a className="brand" href="#top">
-            {profile.name}
-          </a>
-          <div className="links">
-            <a href="#work">Work</a>
-            <a className="optional" href="#experience">
-              Experience
-            </a>
-            <a className="optional" href="#skills">
-              Skills
-            </a>
-            <a href="#contact">Contact</a>
-            <a href={profile.github} rel="noopener">
-              GitHub
-            </a>
-            <ThemeToggle />
-          </div>
-        </div>
-      </nav>
+      <ScrollProgress />
+      <CursorBlob />
 
-      <header id="top">
-        <Contours />
-        <div className="wrap hero">
-          <div className="eyebrow">
-            <span>Kathmandu, Nepal</span>
-            <span>27.7°N 85.3°E</span>
-            <span>Alt 1,400 m</span>
-          </div>
-          <h1>
-            Software built to work <em>offline-first</em>, ship on time, and think a little.
-          </h1>
-          <p className="lede">
-            I&apos;m Shreedhar — a software engineer with 4+ years across mobile and full-stack.
-            Flutter apps with offline-first sync, NestJS + React platforms, and generative AI
-            features that earn their place — carried all the way to production, Google Play, and
-            the App&nbsp;Store.
-          </p>
-          <div className="cta-row">
-            <a className="btn solid" href="#work">
-              See my work
-            </a>
-            <a className="btn ghost" href={`mailto:${profile.email}`}>
-              Get in touch
-            </a>
-          </div>
+      <div className="nav-shell">
+        <nav>
+          <a className="brand" href="#top">
+            SP
+          </a>
+          <a className="link" href="#work">
+            Work
+          </a>
+          <a className="link optional" href="#experience">
+            Experience
+          </a>
+          <a className="link optional" href="#skills">
+            Skills
+          </a>
+          <a className="link" href="#contact">
+            Contact
+          </a>
+          <a className="link" href={profile.github} rel="noopener">
+            GitHub
+          </a>
+          <ThemeToggle />
+        </nav>
+      </div>
+
+      <header id="top" className="wrap hero">
+        <Namaste />
+        <h1 className="pop" style={{ ['--d' as string]: '.08s' }}>
+          I make software that&apos;s <span className="grad">actually fun</span> to use.
+        </h1>
+        <div className="pop" style={{ ['--d' as string]: '.16s' }}>
+          <Typewriter words={roles} />
+        </div>
+        <p className="sub pop" style={{ ['--d' as string]: '.24s' }}>
+          {profile.name} — software engineer in Kathmandu. 4+ years shipping Flutter apps with
+          offline-first sync, NestJS + React platforms, and AI features that earn their place.
+          Currently building a case management platform for UNFPA.
+        </p>
+        <div className="cta-row pop" style={{ ['--d' as string]: '.32s' }}>
+          <a className="btn solid" href="#work">
+            See my work ↓
+          </a>
+          <a className="btn ghost" href={`mailto:${profile.email}`}>
+            Say hello 👋
+          </a>
         </div>
       </header>
 
-      <Section label="About" sub="Who I am" className="about">
-        <div>
-          <p>
-            I&apos;m a <strong>Software Engineer II at YoungInnovations</strong> in Kathmandu.
-            My home turf is <strong>Flutter with Clean Architecture and the Bloc pattern</strong>,
-            but these days I work the whole stack — right now I&apos;m leading full-stack delivery
-            of a <strong>case management platform for UNFPA</strong> built on NestJS, Prisma,
-            PostgreSQL, and React.
-          </p>
-          <p>
-            The problems I enjoy most are the unglamorous hard ones:{' '}
-            <strong>offline-first data sync</strong>, consent-driven intake workflows,
-            role-based access control that actually protects people, bilingual interfaces where
-            every error message lands in the reader&apos;s language, and store releases that pass
-            review the first time. Much of my recent work is{' '}
-            <strong>integrating generative AI</strong> into products — and helping clients figure
-            out where AI genuinely helps and where it doesn&apos;t.
-          </p>
-          <p>
-            Beyond the editor, I mentor junior developers, run code-review sessions, and sit in
-            the room with clients translating business needs into technical specs. And when
-            I&apos;m properly offline myself, you&apos;ll likely find me on a trail somewhere in
-            the Himalaya.
-          </p>
+      <div className="wrap bento">
+        <div className="tile teal pop" style={{ ['--d' as string]: '.4s' }}>
+          <div className="label">Local time — Kathmandu 🇳🇵</div>
+          <KtmClock />
+          <div className="label mono">UTC+5:45, yes really</div>
         </div>
-      </Section>
-
-      <Section id="work" label="Selected work" sub="Shipped & maintained">
-        <div>
-          {projects.map((p) => (
-            <div key={p.name} className={p.spotlight ? 'card spotlight' : 'card'}>
-              <h3>
-                {p.name}
-                {p.badge && <span className="badge">{p.badge}</span>}
-              </h3>
-              <div className="role">{p.role}</div>
-              <p>{p.description}</p>
-              <div className="tag-row">
-                {p.tags.map((t) => (
-                  <span key={t} className="tag">
-                    {t}
-                  </span>
-                ))}
-              </div>
-              {p.links.length > 0 && (
-                <div className="links">
-                  {p.links.map((l) => (
-                    <a key={l.href} href={l.href} rel="noopener">
-                      {l.label} ↗
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      <Section id="experience" label="Experience" sub="2021 — present">
-        <ul className="tl">
-          {experience.map((job) => (
-            <li key={job.company}>
-              <div className="when">{job.when}</div>
-              <h3>
-                {job.role} · <span className="co">{job.company}</span>
-              </h3>
-              <ul>
-                {job.bullets.map((b) => (
-                  <li key={b}>{b}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section id="skills" label="Skills" sub="Daily drivers">
-        <div className="skill-groups">
-          {skillGroups.map((g) => (
-            <div key={g.title} className="skill-group">
-              <h3>{g.title}</h3>
-              <ul>
-                {g.items.map((s) => (
-                  <li key={s} className="tag">
-                    {s}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      <Section label="Education" sub="Kathmandu">
-        <div className="edu">
-          {education.map((e) => (
-            <div key={e.degree}>
-              <h3>{e.degree}</h3>
-              <p>{e.school}</p>
-            </div>
-          ))}
-        </div>
-      </Section>
-
-      <Section id="contact" label="Contact" sub="Open to interesting work" className="contact">
-        <div>
-          <h2>Have a product that needs to survive bad networks and good ideas?</h2>
-          <p>
-            I&apos;m happy to talk about Flutter, full-stack architecture, AI features that earn
-            their place — or the best trekking season in Nepal.
-          </p>
-          <div className="cta-row">
-            <a className="btn solid" href={`mailto:${profile.email}`}>
-              {profile.email}
-            </a>
-            <a className="btn ghost" href={profile.github} rel="noopener">
-              github.com/shreedhar73 ↗
-            </a>
+        {stats.map((s, i) => (
+          <div key={s.label} className="tile mango pop" style={{ ['--d' as string]: `${0.46 + i * 0.06}s` }}>
+            <div className="big">{s.value}</div>
+            <div className="label">{s.label}</div>
           </div>
+        ))}
+        <div className="tile rhodo wide pop" style={{ ['--d' as string]: '.72s' }}>
+          <div className="label">Currently</div>
+          <div>
+            Leading full-stack delivery of the <strong>UNFPA Safehouse platform</strong> — and
+            when properly offline, walking Himalayan trails. ⛰️
+          </div>
+          <a className="tile-link" href="#work">
+            What I&apos;m shipping →
+          </a>
         </div>
-      </Section>
+      </div>
+
+      <div className="marquee" aria-hidden="true">
+        <div className="track">
+          {[0, 1].map((n) => (
+            <span key={n} className="item">
+              {skills.map((s) => (
+                <span key={s} className="item">
+                  {s}
+                </span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <main className="wrap">
+        <section id="work">
+          <Reveal className="sec-head">
+            <h2>Selected work</h2>
+            <span className="count mono">{projects.length} projects · shipped &amp; maintained</span>
+          </Reveal>
+          <div className="projects">
+            {projects.map((p, i) => (
+              <Reveal key={p.name} delay={(i % 2) * 0.08}>
+                <Tilt className={p.spotlight ? 'card spotlight' : 'card'} accent={p.accent}>
+                  <h3>
+                    {p.name}
+                    {p.badge && <span className="badge">{p.badge}</span>}
+                  </h3>
+                  <div className="role">{p.role}</div>
+                  <p>{p.description}</p>
+                  <div className="tag-row">
+                    {p.tags.map((t) => (
+                      <span key={t} className="tag">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  {p.links.length > 0 && (
+                    <div className="links">
+                      {p.links.map((l) => (
+                        <a key={l.href} href={l.href} rel="noopener">
+                          {l.label} ↗
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </Tilt>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+
+        <section id="experience">
+          <Reveal className="sec-head">
+            <h2>Experience</h2>
+            <span className="count mono">2021 — present</span>
+          </Reveal>
+          <Reveal as="ul" className="tl">
+            {experience.map((job) => (
+              <li key={job.company}>
+                <div className="when">{job.when}</div>
+                <h3>
+                  {job.role} · <span className="co">{job.company}</span>
+                </h3>
+                <ul>
+                  {job.bullets.map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </Reveal>
+        </section>
+
+        <section id="skills">
+          <Reveal className="sec-head">
+            <h2>Toolbox</h2>
+            <span className="count mono">hover around, they&apos;re ticklish</span>
+          </Reveal>
+          <Reveal className="skill-cloud">
+            {skills.map((s) => (
+              <span key={s} className="tag">
+                {s}
+              </span>
+            ))}
+          </Reveal>
+          <Reveal className="edu" delay={0.1}>
+            {education.map((e) => (
+              <div key={e.degree}>
+                <h3>{e.degree}</h3>
+                <p>{e.school}</p>
+              </div>
+            ))}
+          </Reveal>
+        </section>
+
+        <Reveal>
+          <div id="contact" className="contact-box">
+            <h2>Let&apos;s build something people keep on their home screen.</h2>
+            <p>
+              Flutter, full-stack architecture, AI features that earn their place — or the best
+              trekking season in Nepal. All valid reasons to write.
+            </p>
+            <div className="cta-row">
+              <a className="btn solid" href={`mailto:${profile.email}`}>
+                {profile.email}
+              </a>
+              <a className="btn ghost" href={profile.github} rel="noopener">
+                github.com/shreedhar73 ↗
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </main>
 
       <footer>
         <div className="wrap">
           <span>© 2026 {profile.name}</span>
-          <span className="mono">KTM · 1,400 m above sea level</span>
+          <span className="mono">Made in Kathmandu · UTC+5:45</span>
         </div>
       </footer>
     </>

@@ -1,18 +1,18 @@
 import type { Metadata } from 'next';
-import { Bricolage_Grotesque, Instrument_Sans, Spline_Sans_Mono } from 'next/font/google';
+import { Unbounded, Figtree, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
-const display = Bricolage_Grotesque({
+const display = Unbounded({
   subsets: ['latin'],
   variable: '--font-display',
   weight: 'variable',
 });
-const body = Instrument_Sans({
+const body = Figtree({
   subsets: ['latin'],
   variable: '--font-body',
   weight: 'variable',
 });
-const mono = Spline_Sans_Mono({
+const mono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   weight: 'variable',
