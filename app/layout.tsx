@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import {
   Bricolage_Grotesque,
   Figtree,
@@ -22,6 +22,19 @@ export const metadata: Metadata = {
   title: 'Shreedhar Pandeya — Software Engineer',
   description:
     'Shreedhar Pandeya — software engineer in Kathmandu building offline-first Flutter apps and full-stack platforms with NestJS, React, and generative AI.',
+  openGraph: {
+    title: 'Shreedhar Pandeya — Software Engineer',
+    description:
+      'Offline-first Flutter apps and full-stack platforms, built in Kathmandu.',
+    type: 'website',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#faf9f7' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b0e16' },
+  ],
 };
 
 const prefsInit = `
@@ -45,6 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <body className={fontVars}>
         <script dangerouslySetInnerHTML={{ __html: prefsInit }} />
+        <div className="stars" aria-hidden="true" />
         {children}
       </body>
     </html>

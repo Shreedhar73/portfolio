@@ -1,12 +1,14 @@
 import ThemeToggle from '@/components/ThemeToggle';
 import Customizer from '@/components/Customizer';
-import { KtmClock, ScrollProgress, Reveal } from '@/components/Fun';
-import { profile, stats, projects, experience, skills, education } from '@/data/resume';
+import Contours from '@/components/Contours';
+import { KtmClock, ScrollProgress, Reveal, CursorGlow, Typewriter } from '@/components/Fun';
+import { profile, roles, stats, projects, experience, skills, education } from '@/data/resume';
 
 export default function Home() {
   return (
     <>
       <ScrollProgress />
+      <CursorGlow />
       <Customizer />
 
       <div className="nav-shell">
@@ -34,6 +36,7 @@ export default function Home() {
       </div>
 
       <header id="top" className="wrap hero">
+        <Contours />
         <div className="greeting pop">नमस्ते — I&apos;m Shreedhar</div>
         <h1 className="pop" style={{ ['--d' as string]: '.08s' }}>
           Software built <em>offline-first</em>, shipped on time.
@@ -43,6 +46,9 @@ export default function Home() {
           apps with offline-first sync, NestJS + React platforms, and generative AI features
           that earn their place. Currently building a case management platform for UNFPA.
         </p>
+        <div className="ticker mono pop" style={{ ['--d' as string]: '.2s' }}>
+          <span className="prompt">$</span> I build <Typewriter words={roles} />
+        </div>
         <div className="cta-row pop" style={{ ['--d' as string]: '.24s' }}>
           <a className="btn solid" href="#work">
             See my work

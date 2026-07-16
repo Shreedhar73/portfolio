@@ -41,6 +41,64 @@ export function ScrollProgress() {
   return <div ref={ref} className="progress" aria-hidden="true" />;
 }
 
+/* ---------- cursor-tracking glow on cards & tiles ---------- */
+export function CursorGlow() {
+  useEffect(() => {
+    if (window.matchMedia('(hover: none)').matches) return;
+    const onMove = (e: PointerEvent) => {
+      const el = (e.target as Element | null)?.closest?.('.card, .tile');
+      if (!(el instanceof HTMLElement)) return;
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+      el.style.setProperty('--my', `${e.clientY - r.top}px`);
+    };
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => window.removeEventListener('pointermove', onMove);
+  }, []);
+  return null;
+}
+
+/* ---------- typewriter roles ---------- */
+export function Typewriter({ words }: { words: string[] }) {
+  const [text, setText] = useState('');
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setText(words[0] ?? '');
+      return;
+    }
+    let word = 0;
+    let len = 0;
+    let deleting = false;
+    let id: ReturnType<typeof setTimeout>;
+
+    const tick = () => {
+      const current = words[word];
+      len += deleting ? -1 : 1;
+      setText(current.slice(0, len));
+      let delay = deleting ? 34 : 62;
+      if (!deleting && len === current.length) {
+        deleting = true;
+        delay = 2100;
+      } else if (deleting && len === 0) {
+        deleting = false;
+        word = (word + 1) % words.length;
+        delay = 320;
+      }
+      id = setTimeout(tick, delay);
+    };
+    id = setTimeout(tick, 500);
+    return () => clearTimeout(id);
+  }, [words]);
+
+  return (
+    <span className="type">
+      {text}
+      <span className="caret" aria-hidden="true" />
+    </span>
+  );
+}
+
 /* ---------- scroll reveal ---------- */
 export function Reveal({
   as: Tag = 'div',

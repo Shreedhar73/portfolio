@@ -44,8 +44,11 @@ export default function Contours() {
     function draw() {
       ctx!.clearRect(0, 0, W, H);
       const lines = 14;
-      const base = css('--contour');
-      const hi = css('--contour-hi');
+      const ink = css('--ink') || '#1c1f26';
+      const accent = css('--accent') || '#a86118';
+      const dark = document.documentElement.dataset.theme
+        ? document.documentElement.dataset.theme === 'dark'
+        : window.matchMedia('(prefers-color-scheme: dark)').matches;
       for (let i = 0; i < lines; i++) {
         const yBase = H * (0.18 + (i / lines) * 0.95);
         ctx!.beginPath();
@@ -53,10 +56,13 @@ export default function Contours() {
           const y = yBase + ridge(x, i) * (14 + i * 2.2);
           x === 0 ? ctx!.moveTo(x, y) : ctx!.lineTo(x, y);
         }
-        ctx!.strokeStyle = i === 4 || i === 9 ? hi : base;
+        const highlight = i === 4 || i === 9;
+        ctx!.strokeStyle = highlight ? accent : ink;
+        ctx!.globalAlpha = highlight ? (dark ? 0.32 : 0.26) : dark ? 0.07 : 0.08;
         ctx!.lineWidth = 1;
         ctx!.stroke();
       }
+      ctx!.globalAlpha = 1;
     }
 
     function loop() {
@@ -75,7 +81,10 @@ export default function Contours() {
     window.addEventListener('resize', onResize);
 
     const mo = new MutationObserver(draw);
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+    mo.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme', 'data-scheme'],
+    });
 
     if (!reduce) raf = requestAnimationFrame(loop);
 
