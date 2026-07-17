@@ -1,12 +1,13 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/",
+      "src": "/",
       "has": [
         { "type": "host", "value": "mobile.shreedharpandeya.com.np" }
       ],
-      "destination": "/mobile"
-    }
+      "dest": "/mobile"
+    },
+    { "handle": "filesystem" }
   ]
 }
