@@ -11,6 +11,22 @@ export default function Home() {
       <CursorGlow />
       <Customizer />
 
+      {/* floating action → mobile-engineer sub-portfolio.
+          Local/dev: /mobile route. Prod: swap to https://mobile.shreedharpandeya.com.np */}
+      <a
+        className="fab-mobile"
+        href="/mobile"
+        aria-label="Open the mobile-engineer portfolio"
+        title="Mobile-engineer portfolio"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <rect x="6" y="2.5" width="12" height="19" rx="2.6" />
+          <path d="M10.5 18.5h3" />
+        </svg>
+        <span className="fab-mobile-label">Mobile dev →</span>
+        <span className="fab-mobile-ping" aria-hidden="true" />
+      </a>
+
       <div className="nav-shell">
         <nav>
           <a className="brand" href="#top">

@@ -922,6 +922,75 @@ footer .wrap {
   font-size: 0.82rem;
 }
 
+/* ---------- floating action → mobile sub-portfolio ---------- */
+.fab-mobile {
+  position: fixed;
+  right: 88px;
+  bottom: 26px;
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 52px;
+  padding: 0 15px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+  transition: transform 0.35s var(--ease), background 0.25s, color 0.25s, gap 0.35s var(--ease);
+}
+.fab-mobile svg {
+  flex: none;
+}
+.fab-mobile:hover {
+  transform: translateY(-3px);
+  background: var(--accent);
+  color: var(--on-accent);
+  gap: 9px;
+}
+.fab-mobile-label {
+  max-width: 0;
+  opacity: 0;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: max-width 0.4s var(--ease), opacity 0.3s ease;
+}
+.fab-mobile:hover .fab-mobile-label,
+.fab-mobile:focus-visible .fab-mobile-label {
+  max-width: 120px;
+  opacity: 1;
+}
+.fab-mobile-ping {
+  position: absolute;
+  top: 9px;
+  left: 34px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 70%, transparent);
+  animation: fm-ping 2.4s ease-out infinite;
+}
+.fab-mobile:hover .fab-mobile-ping {
+  background: var(--on-accent);
+}
+@keyframes fm-ping {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 65%, transparent); }
+  70% { box-shadow: 0 0 0 9px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (max-width: 540px) {
+  .fab-mobile {
+    right: 78px;
+    bottom: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fab-mobile-ping { animation: none; }
+}
+
 /* ---------- customizer ---------- */
 .fab {
   position: fixed;
