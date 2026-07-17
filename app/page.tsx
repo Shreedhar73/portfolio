@@ -4,6 +4,9 @@ import Contours from '@/components/Contours';
 import { KtmClock, ScrollProgress, Reveal, CursorGlow, Typewriter } from '@/components/Fun';
 import { profile, roles, stats, projects, experience, skills, education } from '@/data/resume';
 
+// prod: subdomain (set NEXT_PUBLIC_MOBILE_URL on Vercel). dev: same-origin route.
+const MOBILE_URL = process.env.NEXT_PUBLIC_MOBILE_URL || '/mobile';
+
 export default function Home() {
   return (
     <>
@@ -12,10 +15,10 @@ export default function Home() {
       <Customizer />
 
       {/* floating action → mobile-engineer sub-portfolio.
-          Local/dev: /mobile route. Prod: swap to https://mobile.shreedharpandeya.com.np */}
+          dev: /mobile route · prod: https://mobile.shreedharpandeya.com.np via NEXT_PUBLIC_MOBILE_URL */}
       <a
         className="fab-mobile"
-        href="/mobile"
+        href={MOBILE_URL}
         aria-label="Open the mobile-engineer portfolio"
         title="Mobile-engineer portfolio"
       >

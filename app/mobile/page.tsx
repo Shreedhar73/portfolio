@@ -24,6 +24,9 @@ const APP_META: Record<
   },
 };
 
+// prod: apex main site (set NEXT_PUBLIC_MAIN_URL on Vercel). dev: same-origin root.
+const MAIN_URL = process.env.NEXT_PUBLIC_MAIN_URL || '/';
+
 const mobileProjects = projects.filter((p) => p.tags.includes('Flutter'));
 
 const screens: ScreenApp[] = mobileProjects.map((p) => {
@@ -77,7 +80,7 @@ export default function MobilePage() {
             <span className="pulse" aria-hidden="true" />
             <Uptime />
           </span>
-          <a className="home" href="/">
+          <a className="home" href={MAIN_URL}>
             ← main site
           </a>
         </div>
