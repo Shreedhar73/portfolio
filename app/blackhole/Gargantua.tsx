@@ -817,8 +817,9 @@ export default function Gargantua() {
       s.camRT = Math.min(R_MAX, Math.max(R_MIN, s.camRT * (1 + d * 0.001)));
       s.idleT = 0;
 
-      /* keep pushing past R_MIN: tidal forces win, autopilot bails out */
-      if (d > 0 && before <= R_MIN + 1e-3 && !s.spag) {
+      /* keep pushing past R_MIN: tidal forces win, autopilot bails out.
+         negative deltaY is the descend direction (camRT shrinks) */
+      if (d < 0 && before <= R_MIN + 1e-3 && !s.spag) {
         if (++s.push > 7) {
           s.push = 0;
           s.spag = true;
@@ -837,7 +838,7 @@ export default function Gargantua() {
             }, 2400)
           );
         }
-      } else if (d < 0) {
+      } else if (d > 0) {
         s.push = 0;
       }
     };
