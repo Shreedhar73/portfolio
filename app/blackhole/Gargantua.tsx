@@ -263,7 +263,7 @@ void main(){
     minR = min(minR, r);
 
     float absY = abs(pos.y);
-    float dt = max(0.012, r*mix(0.02, 0.05, smoothstep(6.0, 20.0, r)));
+    float dt = max(0.012, r*mix(0.02, 0.06, smoothstep(6.0, 20.0, r)));
 
     /* thin volumetric halo hugging the disk plane */
     if(absY < 0.45 && r > DIN && r < DOUT){
@@ -689,7 +689,7 @@ export default function Gargantua() {
 
     const coarse = matchMedia('(pointer: coarse)').matches;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let steps = coarse ? 230 : 380;
+    let steps = coarse ? 200 : 320;
     let scale = coarse ? 0.5 : 0.66;
     if (canvas.clientHeight > canvas.clientWidth) {
       /* portrait: steeper default orbit so the disk reads above the panel */
