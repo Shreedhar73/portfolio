@@ -393,7 +393,8 @@ nav a.link:hover {
 /* ---------- hero ---------- */
 .hero {
   position: relative;
-  padding: 100px 0 48px;
+  /* keep .wrap's side padding — .hero declared later would otherwise zero it */
+  padding: 100px 24px 48px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -982,9 +983,12 @@ footer .wrap {
   100% { box-shadow: 0 0 0 0 transparent; }
 }
 @media (max-width: 540px) {
+  /* stack all three FABs in one clean column on the right edge */
   .fab-mobile {
-    right: 78px;
-    bottom: 18px;
+    right: 18px;
+    bottom: 78px;
+    height: 48px;
+    padding: 0 13px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1037,8 +1041,10 @@ footer .wrap {
 }
 @media (max-width: 540px) {
   .fab-hole {
-    right: 78px;
-    bottom: 78px;
+    right: 18px;
+    bottom: 138px;
+    height: 48px;
+    padding: 0 13px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

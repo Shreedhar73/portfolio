@@ -585,20 +585,35 @@
 
 /* ---------- responsive ---------- */
 @media (max-width: 820px) {
+  .bh-top {
+    padding: 14px;
+    flex-direction: column;
+    gap: 10px;
+  }
   .bh-telemetry {
+    align-self: flex-start;
+    gap: 12px;
+    padding: 5px 10px;
+    font-size: 0.56rem;
+  }
+  .bh-telemetry span:nth-child(3) {
     display: none;
   }
   .bh-brand-main {
     font-size: 0.6rem;
     letter-spacing: 0.34em;
   }
+  .bh-brand-sub {
+    font-size: 0.52rem;
+    letter-spacing: 0.16em;
+  }
   .bh-panel {
     left: 12px;
     right: 12px;
     top: auto;
-    bottom: 118px;
+    bottom: calc(112px + env(safe-area-inset-bottom));
     width: auto;
-    max-height: 46vh;
+    max-height: 44vh;
   }
   .bh-gauge {
     display: none;
@@ -606,7 +621,7 @@
   .bh-nav {
     left: 12px;
     right: 12px;
-    bottom: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
     min-width: 0;
     display: flex;
     align-items: center;

@@ -67,6 +67,7 @@ uniform float uTime;
 uniform vec3  uCamPos;
 uniform float uFov;
 uniform int   uSteps;
+uniform float uOffY;   // portrait: lift scene center above the content panel
 
 #define RS 1.0
 const float DIN  = 2.75;
@@ -238,6 +239,7 @@ bool diskCross(vec3 a, vec3 b, vec3 rayDir, inout vec3 col, inout float trans){
 
 void main(){
   vec2 p = (gl_FragCoord.xy - 0.5*uRes)/uRes.y;
+  p.y -= uOffY;
   vec3 ro = uCamPos;
   vec3 ww = normalize(-ro);
   vec3 uu = normalize(cross(ww, vec3(0.0,1.0,0.0)));
@@ -655,6 +657,7 @@ export default function Gargantua() {
       ray: {
         res: loc(rayP, 'uRes'), time: loc(rayP, 'uTime'),
         cam: loc(rayP, 'uCamPos'), fov: loc(rayP, 'uFov'), steps: loc(rayP, 'uSteps'),
+        offY: loc(rayP, 'uOffY'),
       },
       bright: { tex: loc(brightP, 'uTex') },
       down: { tex: loc(downP, 'uTex'), hp: loc(downP, 'uHalfPx') },
@@ -669,6 +672,10 @@ export default function Gargantua() {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     let steps = coarse ? 200 : 320;
     let scale = coarse ? 0.5 : 0.66;
+    if (canvas.clientHeight > canvas.clientWidth) {
+      /* portrait: steeper default orbit so the disk reads above the panel */
+      sim.current.incl = sim.current.inclT = 0.38;
+    }
     const dpr = Math.min(devicePixelRatio || 1, 2);
 
     let sceneRT: RT | null = null;
@@ -782,11 +789,6 @@ export default function Gargantua() {
     let hudTick = 0;
     let bootTimer = 0;
 
-    const fullscreen = (prog: WebGLProgram) => {
-      gl.useProgram(prog);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
-    };
-
     const loop = (now: number) => {
       raf = requestAnimationFrame(loop);
       const dt = Math.min(0.05, (now - last) / 1000);
@@ -831,6 +833,7 @@ export default function Gargantua() {
         gl.uniform3f(U.ray.cam, cx, cy, cz);
         gl.uniform1f(U.ray.fov, fovK);
         gl.uniform1i(U.ray.steps, steps);
+        gl.uniform1f(U.ray.offY, canvas.height > canvas.width ? 0.16 : 0.0);
         gl.drawArrays(gl.TRIANGLES, 0, 3);
 
         /* pass 2 — bright extract into mip0 */
