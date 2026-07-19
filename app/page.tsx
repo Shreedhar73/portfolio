@@ -6,6 +6,8 @@ import { profile, roles, stats, projects, experience, skills, education } from '
 
 // prod: subdomain (set NEXT_PUBLIC_MOBILE_URL on Vercel). dev: same-origin route.
 const MOBILE_URL = process.env.NEXT_PUBLIC_MOBILE_URL || '/mobile';
+// prod: https://blackhole.shreedharpandeya.com.np via NEXT_PUBLIC_BLACKHOLE_URL
+const BLACKHOLE_URL = process.env.NEXT_PUBLIC_BLACKHOLE_URL || '/blackhole';
 
 export default function Home() {
   return (
@@ -28,6 +30,22 @@ export default function Home() {
         </svg>
         <span className="fab-mobile-label">Mobile dev →</span>
         <span className="fab-mobile-ping" aria-hidden="true" />
+      </a>
+
+      {/* floating action → blackhole sub-portfolio.
+          dev: /blackhole route · prod: https://blackhole.shreedharpandeya.com.np */}
+      <a
+        className="fab-hole"
+        href={BLACKHOLE_URL}
+        aria-label="Fall into the singularity portfolio"
+        title="Singularity portfolio"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" fill="currentColor" stroke="none" />
+          <path d="M2.5 12c2.6-3.4 16.4-3.4 19 0" />
+          <path d="M21.5 12c-2.6 3.4-16.4 3.4-19 0" opacity="0.55" />
+        </svg>
+        <span className="fab-hole-label">Fall in →</span>
       </a>
 
       <div className="nav-shell">

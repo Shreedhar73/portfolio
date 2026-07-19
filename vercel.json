@@ -8,6 +8,13 @@
       ],
       "dest": "/mobile"
     },
+    {
+      "src": "/",
+      "has": [
+        { "type": "host", "value": "blackhole.shreedharpandeya.com.np" }
+      ],
+      "dest": "/blackhole"
+    },
     { "handle": "filesystem" }
   ]
 }
