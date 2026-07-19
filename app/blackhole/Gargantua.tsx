@@ -51,6 +51,14 @@ const STATIONS: { id: StationId; r: number; label: string; sub: string }[] = [
 const R_MIN = 4.6;
 const R_MAX = 34.0;
 
+const STATION_LOG: Record<StationId, string> = {
+  approach: 'stable parking orbit established at 26 rs',
+  work: 'matter streams resolved — surveying shipped bodies',
+  experience: 'photon sphere proximity — careers appear longer from here',
+  skills: 'inner orbit — spectrograph reads stable elements',
+  contact: 'final stable coordinate — transmission window open',
+};
+
 /* ------------------------------------------------------------------ */
 /* shaders                                                             */
 /* ------------------------------------------------------------------ */
@@ -603,6 +611,7 @@ export default function Gargantua() {
   const [panelOpen, setPanelOpen] = useState(true);
   const [glitchN, setGlitchN] = useState(0);
   const [spag, setSpag] = useState(false);
+  const [log, setLog] = useState({ n: 0, text: STATION_LOG.approach });
 
   const rEl = useRef<HTMLSpanElement>(null);
   const tdEl = useRef<HTMLSpanElement>(null);
@@ -638,6 +647,7 @@ export default function Gargantua() {
     if (Math.abs(Math.log(sim.current.camRT / st.r)) < 0.01) return;
     sim.current.camRT = st.r;
     setGlitchN((n) => n + 1);
+    setLog((l) => ({ n: l.n + 1, text: `warp burn — transferring to ${st.label}` }));
   };
 
   useEffect(() => {
@@ -793,6 +803,10 @@ export default function Gargantua() {
           spagTimers.push(
             window.setTimeout(() => {
               sim.current.camRT = STATIONS[0].r;
+              setLog((l) => ({
+                n: l.n + 1,
+                text: 'tidal limit exceeded — autopilot recovery engaged',
+              }));
             }, 1000),
             window.setTimeout(() => {
               sim.current.spag = false;
@@ -997,6 +1011,7 @@ export default function Gargantua() {
         if (best !== s.station) {
           s.station = best;
           setStation(best);
+          setLog((l) => ({ n: l.n + 1, text: STATION_LOG[best] }));
         }
         document.documentElement.dataset.bhZone = r < 6.6 ? 'horizon' : 'space';
         /* continuous gravitational-redshift feel: 0 far out → 1 at R_MIN */
@@ -1143,6 +1158,11 @@ export default function Gargantua() {
 
       <p className="bh-ui bh-hint" aria-hidden="true">
         drag — orbit&ensp;·&ensp;scroll — descend&ensp;·&ensp;pinch on touch
+      </p>
+
+      {/* observer log ticker */}
+      <p className="bh-ui bh-log" aria-live="polite" key={log.n}>
+        <span>OBSERVER LOG · {log.text}</span>
       </p>
     </div>
   );
