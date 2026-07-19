@@ -72,6 +72,45 @@
   opacity: 0.5;
 }
 
+/* ---------- spaghettification ---------- */
+.bh-spaghetti .bh-ui {
+  animation: bh-stretch 2.2s cubic-bezier(0.4, 0, 0.6, 1);
+}
+@keyframes bh-stretch {
+  0% {
+    transform: none;
+    filter: none;
+  }
+  40% {
+    transform: scaleY(2.1) scaleX(0.94);
+    filter: blur(0.6px);
+    opacity: 0.75;
+  }
+  62% {
+    transform: scaleY(1.5) scaleX(0.97);
+    opacity: 0.85;
+  }
+  100% {
+    transform: none;
+    filter: none;
+  }
+}
+.bh-spag {
+  position: absolute;
+  z-index: 35;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 10px;
+  text-align: center;
+  pointer-events: none;
+  font-size: 0.66rem;
+  letter-spacing: 0.34em;
+  color: var(--bh-amber);
+  text-shadow: 0 0 16px rgba(255, 180, 84, 0.6);
+  animation: bh-blink 0.5s steps(2) infinite;
+}
+
 /* ---------- doppler drag tint ----------
    --bh-dop (-1..1, set from sim): orbiting one way blue-shifts the
    approaching edge, the other way red-shifts it; decays on release */
@@ -824,6 +863,10 @@
   }
   .bh-glitch,
   .bh-glitch span {
+    animation: none;
+  }
+  .bh-spaghetti .bh-ui,
+  .bh-spag {
     animation: none;
   }
 }

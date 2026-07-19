@@ -602,6 +602,7 @@ export default function Gargantua() {
   const [glOk, setGlOk] = useState(true);
   const [panelOpen, setPanelOpen] = useState(true);
   const [glitchN, setGlitchN] = useState(0);
+  const [spag, setSpag] = useState(false);
 
   const rEl = useRef<HTMLSpanElement>(null);
   const tdEl = useRef<HTMLSpanElement>(null);
@@ -627,6 +628,8 @@ export default function Gargantua() {
     tEarth: 0,
     dopV: 0,
     dopW: 0,
+    push: 0,
+    spag: false,
     station: 'approach' as StationId,
   });
 
@@ -777,9 +780,32 @@ export default function Gargantua() {
       /* clamp per-event delta — fast trackpad flicks fired huge single
          jumps that the camera easing then chased in one visible lunge */
       const d = Math.max(-140, Math.min(140, e.deltaY));
+      const before = s.camRT;
       s.camRT = Math.min(R_MAX, Math.max(R_MIN, s.camRT * (1 + d * 0.001)));
       s.idleT = 0;
+
+      /* keep pushing past R_MIN: tidal forces win, autopilot bails out */
+      if (d > 0 && before <= R_MIN + 1e-3 && !s.spag) {
+        if (++s.push > 7) {
+          s.push = 0;
+          s.spag = true;
+          setSpag(true);
+          spagTimers.push(
+            window.setTimeout(() => {
+              sim.current.camRT = STATIONS[0].r;
+            }, 1000),
+            window.setTimeout(() => {
+              sim.current.spag = false;
+              setSpag(false);
+            }, 2400)
+          );
+        }
+      } else if (d < 0) {
+        s.push = 0;
+      }
     };
+
+    const spagTimers: number[] = [];
 
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 2) {
@@ -982,6 +1008,7 @@ export default function Gargantua() {
 
     return () => {
       cancelAnimationFrame(raf);
+      spagTimers.forEach(clearTimeout);
       removeEventListener('resize', resize);
       canvas.removeEventListener('pointerdown', onPointerDown);
       removeEventListener('pointermove', onPointerMove);
@@ -1002,7 +1029,7 @@ export default function Gargantua() {
   const active = STATIONS.find((s) => s.id === station)!;
 
   return (
-    <div className="bh-stage">
+    <div className={`bh-stage ${spag ? 'bh-spaghetti' : ''}`}>
       <canvas ref={canvasRef} className="bh-canvas" aria-hidden="true" />
       {!glOk && <div className="bh-fallback" aria-hidden="true" />}
       <div className="bh-grain" aria-hidden="true" />
@@ -1010,6 +1037,12 @@ export default function Gargantua() {
       {glitchN > 0 && (
         <div key={glitchN} className="bh-glitch" aria-hidden="true">
           <span>TRANSMISSION REACQUIRED</span>
+        </div>
+      )}
+      {spag && (
+        <div className="bh-spag" role="status">
+          <span>TIDAL FORCES EXCEED HULL RATING</span>
+          <span>AUTOPILOT — RESTORING PARKING ORBIT</span>
         </div>
       )}
 
