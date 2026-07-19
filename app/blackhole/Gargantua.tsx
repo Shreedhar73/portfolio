@@ -264,12 +264,6 @@ void main(){
 
     float absY = abs(pos.y);
     float dt = max(0.012, r*mix(0.02, 0.05, smoothstep(6.0, 20.0, r)));
-    /* refine steps near the disk plane inside the disk annulus — coarse
-       segments there made outer-ring crossings shimmer once the camera
-       moved in close and rays hit the plane at grazing angles */
-    if(r > DIN - 1.0 && r < DOUT + 4.0){
-      dt *= mix(0.16, 1.0, smoothstep(0.0, 1.8, absY));
-    }
 
     /* thin volumetric halo hugging the disk plane */
     if(absY < 0.45 && r > DIN && r < DOUT){
@@ -297,10 +291,28 @@ void main(){
       }
       if(absorbed) break;
     }else{
-      vel = normalize(vel + accAt(pos, vel)*dt);
-      vec3 npos = pos + vel*dt;
-      if(diskCross(pos, npos, vel, col, trans)){ pos = npos; break; }
-      pos = npos;
+      vec3 nvel = normalize(vel + accAt(pos, vel)*dt);
+      vec3 npos = pos + nvel*dt;
+      if(pos.y*npos.y < 0.0){
+        /* segment crosses the disk plane: re-integrate it in four
+           sub-steps so geodesic curvature doesn't shift the crossing
+           point — coarse linear crossings shimmered the outer rings.
+           Only crossing segments pay, so the step budget never starves. */
+        float sdt = dt*0.25;
+        bool absorbed = false;
+        for(int s = 0; s < 4; s++){
+          vec3 v2 = normalize(vel + accAt(pos, vel)*sdt);
+          vec3 p2 = pos + v2*sdt;
+          if(diskCross(pos, p2, v2, col, trans)) absorbed = true;
+          pos = p2;
+          vel = v2;
+        }
+        if(absorbed) break;
+      }else{
+        vel = nvel;
+        if(diskCross(pos, npos, vel, col, trans)){ pos = npos; break; }
+        pos = npos;
+      }
     }
   }
 
