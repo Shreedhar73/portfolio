@@ -72,6 +72,38 @@
   opacity: 0.5;
 }
 
+/* ---------- doppler drag tint ----------
+   --bh-dop (-1..1, set from sim): orbiting one way blue-shifts the
+   approaching edge, the other way red-shifts it; decays on release */
+.bh-doppler {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    linear-gradient(
+      to right,
+      rgb(96 170 255 / calc(clamp(0, var(--bh-dop, 0), 1) * 0.22)),
+      transparent 28%
+    ),
+    linear-gradient(
+      to left,
+      rgb(255 130 66 / calc(clamp(0, var(--bh-dop, 0), 1) * 0.22)),
+      transparent 28%
+    ),
+    linear-gradient(
+      to right,
+      rgb(255 130 66 / calc(clamp(0, -1 * var(--bh-dop, 0), 1) * 0.22)),
+      transparent 28%
+    ),
+    linear-gradient(
+      to left,
+      rgb(96 170 255 / calc(clamp(0, -1 * var(--bh-dop, 0), 1) * 0.22)),
+      transparent 28%
+    );
+}
+
 /* ---------- warp glitch ---------- */
 .bh-glitch {
   position: absolute;

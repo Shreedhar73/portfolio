@@ -625,6 +625,8 @@ export default function Gargantua() {
     idleT: 0,
     tau: 0,
     tEarth: 0,
+    dopV: 0,
+    dopW: 0,
     station: 'approach' as StationId,
   });
 
@@ -752,6 +754,7 @@ export default function Gargantua() {
       const s = sim.current;
       if (!s.dragging) return;
       s.aziT += (e.clientX - s.lastX) * 0.005;
+      s.dopV = Math.max(-1, Math.min(1, s.dopV + (e.clientX - s.lastX) * 0.006));
       s.inclT = Math.min(1.3, Math.max(0.04, s.inclT + (e.clientY - s.lastY) * 0.004));
       s.lastX = e.clientX;
       s.lastY = e.clientY;
@@ -855,6 +858,13 @@ export default function Gargantua() {
         s.tEarth += dt / Math.sqrt(Math.max(1 - 1.5 / s.camR, 0.04));
         if (!reduced && s.idleT > 2.5 && !s.dragging) s.aziT += dt * 0.03;
         s.azi += (s.aziT - s.azi) * (1 - Math.exp(-dt * 5));
+
+        /* doppler tint: decays after drag ends; skip writes when settled */
+        s.dopV *= Math.exp(-dt * 2.2);
+        if (Math.abs(s.dopV) > 0.002 || Math.abs(s.dopW) > 0.002) {
+          s.dopW = s.dopV;
+          document.documentElement.style.setProperty('--bh-dop', s.dopV.toFixed(3));
+        }
 
         const time = reduced ? (now - t0) * 0.00015 : (now - t0) * 0.001;
         const ci = Math.cos(s.incl), si = Math.sin(s.incl);
@@ -982,6 +992,7 @@ export default function Gargantua() {
       removeEventListener('keydown', onKey);
       delete document.documentElement.dataset.bhZone;
       document.documentElement.style.removeProperty('--bh-red');
+      document.documentElement.style.removeProperty('--bh-dop');
       if (sceneRT) delRT(gl, sceneRT);
       mips.forEach((m) => delRT(gl, m));
       gl.getExtension('WEBGL_lose_context')?.loseContext();
@@ -995,6 +1006,7 @@ export default function Gargantua() {
       <canvas ref={canvasRef} className="bh-canvas" aria-hidden="true" />
       {!glOk && <div className="bh-fallback" aria-hidden="true" />}
       <div className="bh-grain" aria-hidden="true" />
+      <div className="bh-doppler" aria-hidden="true" />
       {glitchN > 0 && (
         <div key={glitchN} className="bh-glitch" aria-hidden="true">
           <span>TRANSMISSION REACQUIRED</span>
