@@ -72,6 +72,65 @@
   opacity: 0.5;
 }
 
+/* ---------- warp glitch ---------- */
+.bh-glitch {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0;
+  display: grid;
+  place-content: center;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(160, 220, 245, 0.06) 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 7px,
+      rgba(3, 3, 8, 0.55) 7px 9px
+    );
+  animation: bh-glitch-flash 0.55s steps(6, jump-none) forwards;
+}
+.bh-glitch span {
+  font-size: 0.62rem;
+  letter-spacing: 0.5em;
+  color: var(--bh-glow);
+  text-shadow: 0 0 14px var(--bh-glow);
+  animation: bh-glitch-text 0.55s steps(3, jump-none) forwards;
+}
+@keyframes bh-glitch-flash {
+  0% {
+    opacity: 0.9;
+    transform: translateX(-4px);
+  }
+  30% {
+    opacity: 0.55;
+    transform: translateX(5px) scaleY(1.015);
+  }
+  60% {
+    opacity: 0.7;
+    transform: translateX(-2px);
+  }
+  100% {
+    opacity: 0;
+    transform: none;
+  }
+}
+@keyframes bh-glitch-text {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 /* ---------- boot splash ---------- */
 .bh-boot {
   position: absolute;
@@ -729,6 +788,10 @@
     animation: none;
   }
   .bh-hint {
+    animation: none;
+  }
+  .bh-glitch,
+  .bh-glitch span {
     animation: none;
   }
 }

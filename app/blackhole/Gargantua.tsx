@@ -601,6 +601,7 @@ export default function Gargantua() {
   const [booted, setBooted] = useState(false);
   const [glOk, setGlOk] = useState(true);
   const [panelOpen, setPanelOpen] = useState(true);
+  const [glitchN, setGlitchN] = useState(0);
 
   const rEl = useRef<HTMLSpanElement>(null);
   const tdEl = useRef<HTMLSpanElement>(null);
@@ -629,7 +630,9 @@ export default function Gargantua() {
 
   const warpTo = (id: StationId) => {
     const st = STATIONS.find((s) => s.id === id)!;
+    if (Math.abs(Math.log(sim.current.camRT / st.r)) < 0.01) return;
     sim.current.camRT = st.r;
+    setGlitchN((n) => n + 1);
   };
 
   useEffect(() => {
@@ -992,6 +995,11 @@ export default function Gargantua() {
       <canvas ref={canvasRef} className="bh-canvas" aria-hidden="true" />
       {!glOk && <div className="bh-fallback" aria-hidden="true" />}
       <div className="bh-grain" aria-hidden="true" />
+      {glitchN > 0 && (
+        <div key={glitchN} className="bh-glitch" aria-hidden="true">
+          <span>TRANSMISSION REACQUIRED</span>
+        </div>
+      )}
 
       {/* boot splash */}
       <div className={`bh-boot ${booted ? 'done' : ''}`} aria-hidden={booted}>
