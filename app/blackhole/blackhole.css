@@ -211,6 +211,29 @@
   font-size: 0.58rem;
   color: var(--bh-dim);
   text-align: right;
+  margin-left: auto;
+}
+.bh-panel-toggle {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 1px solid var(--bh-line);
+  color: var(--bh-dim);
+  font-family: inherit;
+  font-size: 0.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.bh-panel-toggle:hover {
+  color: var(--bh-glow);
+  border-color: var(--bh-line-strong);
+}
+.bh-panel-closed {
+  bottom: auto;
 }
 .bh-panel-scroll {
   overflow-y: auto;
@@ -581,6 +604,12 @@
   letter-spacing: 0.16em;
   color: var(--bh-dim);
   pointer-events: none;
+  animation: bh-hint-dim 1.2s ease 9s forwards;
+}
+@keyframes bh-hint-dim {
+  to {
+    opacity: 0.3;
+  }
 }
 
 /* ---------- responsive ---------- */
@@ -656,6 +685,9 @@
     animation: none;
   }
   .bh-boot .bh-boot-sub {
+    animation: none;
+  }
+  .bh-hint {
     animation: none;
   }
 }

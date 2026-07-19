@@ -262,10 +262,16 @@ void main(){
     if(r > 45.0 && dot(pos,vel) > 0.0){ break; }           // escaped
     minR = min(minR, r);
 
-    float dt = max(0.012, r*mix(0.02, 0.06, smoothstep(6.0, 20.0, r)));
+    float absY = abs(pos.y);
+    float dt = max(0.012, r*mix(0.02, 0.05, smoothstep(6.0, 20.0, r)));
+    /* refine steps near the disk plane inside the disk annulus — coarse
+       segments there made outer-ring crossings shimmer once the camera
+       moved in close and rays hit the plane at grazing angles */
+    if(r > DIN - 1.0 && r < DOUT + 4.0){
+      dt *= mix(0.16, 1.0, smoothstep(0.0, 1.8, absY));
+    }
 
     /* thin volumetric halo hugging the disk plane */
-    float absY = abs(pos.y);
     if(absY < 0.45 && r > DIN && r < DOUT){
       float dens = exp(-absY*30.0)*0.03*(1.0 - smoothstep(10.0, DOUT-1.0, r));
       float xh = max(r, 3.001);
@@ -575,6 +581,7 @@ export default function Gargantua() {
   const [station, setStation] = useState<StationId>('approach');
   const [booted, setBooted] = useState(false);
   const [glOk, setGlOk] = useState(true);
+  const [panelOpen, setPanelOpen] = useState(true);
 
   const rEl = useRef<HTMLSpanElement>(null);
   const tdEl = useRef<HTMLSpanElement>(null);
@@ -670,7 +677,7 @@ export default function Gargantua() {
 
     const coarse = matchMedia('(pointer: coarse)').matches;
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let steps = coarse ? 200 : 320;
+    let steps = coarse ? 230 : 380;
     let scale = coarse ? 0.5 : 0.66;
     if (canvas.clientHeight > canvas.clientWidth) {
       /* portrait: steeper default orbit so the disk reads above the panel */
@@ -738,7 +745,10 @@ export default function Gargantua() {
       }
       e.preventDefault();
       const s = sim.current;
-      s.camRT = Math.min(R_MAX, Math.max(R_MIN, s.camRT * (1 + e.deltaY * 0.0011)));
+      /* clamp per-event delta — fast trackpad flicks fired huge single
+         jumps that the camera easing then chased in one visible lunge */
+      const d = Math.max(-140, Math.min(140, e.deltaY));
+      s.camRT = Math.min(R_MAX, Math.max(R_MIN, s.camRT * (1 + d * 0.001)));
       s.idleT = 0;
     };
 
@@ -821,7 +831,10 @@ export default function Gargantua() {
         const cx = s.camR * ci * Math.cos(s.azi);
         const cy = s.camR * si;
         const cz = s.camR * ci * Math.sin(s.azi);
-        const fovDeg = 44 + 24 * Math.min(1, Math.max(0, (12 - s.camR) / 6.4));
+        /* smoothstep the zoom curve — the old linear clamp had a kink at
+           r = 12 that read as a sudden lurch mid-descent */
+        const zt = Math.min(1, Math.max(0, (12 - s.camR) / 6.4));
+        const fovDeg = 44 + 24 * zt * zt * (3 - 2 * zt);
         const fovK = 1 / Math.tan((fovDeg * Math.PI) / 360);
 
         /* pass 1 — geodesic raytrace into sceneRT */
@@ -975,14 +988,27 @@ export default function Gargantua() {
       </header>
 
       {/* content panel */}
-      <main className="bh-ui bh-panel" key={station}>
+      <main
+        className={`bh-ui bh-panel ${panelOpen ? '' : 'bh-panel-closed'}`}
+        key={station}
+      >
         <div className="bh-panel-head">
           <span>{active.label}</span>
           <span className="bh-panel-r">{active.sub}</span>
+          <button
+            className="bh-panel-toggle"
+            onClick={() => setPanelOpen((o) => !o)}
+            aria-label={panelOpen ? 'Collapse panel' : 'Expand panel'}
+            aria-expanded={panelOpen}
+          >
+            {panelOpen ? '▁' : '▣'}
+          </button>
         </div>
-        <div className="bh-panel-scroll">
-          <StationContent id={station} />
-        </div>
+        {panelOpen && (
+          <div className="bh-panel-scroll">
+            <StationContent id={station} />
+          </div>
+        )}
       </main>
 
       {/* descent gauge */}
