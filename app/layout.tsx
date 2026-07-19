@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from 'next';
+import type { Metadata, Viewport } from "next";
 import {
   Bricolage_Grotesque,
   Figtree,
@@ -7,33 +7,61 @@ import {
   Source_Sans_3,
   Sora,
   Onest,
-} from 'next/font/google';
-import './globals.css';
+} from "next/font/google";
+import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({ subsets: ['latin'], variable: '--f-bricolage', weight: 'variable' });
-const figtree = Figtree({ subsets: ['latin'], variable: '--f-figtree', weight: 'variable' });
-const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--f-mono', weight: 'variable' });
-const fraunces = Fraunces({ subsets: ['latin'], variable: '--f-fraunces', weight: 'variable' });
-const sourceSans = Source_Sans_3({ subsets: ['latin'], variable: '--f-source', weight: 'variable' });
-const sora = Sora({ subsets: ['latin'], variable: '--f-sora', weight: 'variable' });
-const onest = Onest({ subsets: ['latin'], variable: '--f-onest', weight: 'variable' });
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--f-bricolage",
+  weight: "variable",
+});
+const figtree = Figtree({
+  subsets: ["latin"],
+  variable: "--f-figtree",
+  weight: "variable",
+});
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--f-mono",
+  weight: "variable",
+});
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  variable: "--f-fraunces",
+  weight: "variable",
+});
+const sourceSans = Source_Sans_3({
+  subsets: ["latin"],
+  variable: "--f-source",
+  weight: "variable",
+});
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--f-sora",
+  weight: "variable",
+});
+const onest = Onest({
+  subsets: ["latin"],
+  variable: "--f-onest",
+  weight: "variable",
+});
 
 export const metadata: Metadata = {
-  title: 'Shreedhar Pandeya — Software Engineer',
+  title: "Shreedhar Pandeya — Software Engineer",
   description:
-    'Shreedhar Pandeya — software engineer in Kathmandu building offline-first Flutter apps and full-stack platforms with NestJS, React, and generative AI.',
+    "Shreedhar Pandeya — software engineer in Kathmandu building offline-first Flutter apps and full-stack platforms with NestJS, React, and generative AI.",
   openGraph: {
-    title: 'Shreedhar Pandeya — Software Engineer',
+    title: "Shreedhar Pandeya — Software Engineer",
     description:
-      'Offline-first Flutter apps and full-stack platforms, built in Kathmandu.',
-    type: 'website',
+      "Offline-first Flutter apps and full-stack platforms, built in Kathmandu.",
+    type: "website",
   },
 };
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#faf9f7' },
-    { media: '(prefers-color-scheme: dark)', color: '#0b0e16' },
+    { media: "(prefers-color-scheme: light)", color: "#faf9f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0e16" },
   ],
 };
 
@@ -51,9 +79,13 @@ try {
 
 const fontVars = [bricolage, figtree, mono, fraunces, sourceSans, sora, onest]
   .map((f) => f.variable)
-  .join(' ');
+  .join(" ");
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={fontVars}>
