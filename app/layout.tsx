@@ -47,13 +47,13 @@ const onest = Onest({
 });
 
 export const metadata: Metadata = {
-  title: "Shreedhar Pandeya — Software Engineer",
+  title: "Shreedhar Pandeya — Software Engineer & Technical Lead",
   description:
-    "Shreedhar Pandeya — software engineer in Kathmandu building offline-first Flutter apps and full-stack platforms with NestJS, React, and generative AI.",
+    "Shreedhar Pandeya — software engineer and technical lead in Kathmandu. Builds and leads delivery of offline-first Flutter apps and full-stack platforms with NestJS, React, and generative AI.",
   openGraph: {
-    title: "Shreedhar Pandeya — Software Engineer",
+    title: "Shreedhar Pandeya — Software Engineer & Technical Lead",
     description:
-      "Offline-first Flutter apps and full-stack platforms, built in Kathmandu.",
+      "Offline-first Flutter apps and full-stack platforms — built, led, and shipped from Kathmandu.",
     type: "website",
   },
 };

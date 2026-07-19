@@ -1,6 +1,6 @@
 export const profile = {
   name: "Shreedhar Pandeya",
-  title: "Software Engineer — Mobile & Full-Stack",
+  title: "Software Engineer & Technical Lead — Mobile & Full-Stack",
   location: "Kathmandu, Nepal",
   email: "shreedharpandey000@gmail.com",
   github: "https://github.com/shreedhar73",
@@ -10,17 +10,18 @@ export const profile = {
 export const roles = [
   "Flutter apps",
   "NestJS backends",
-  "offline-first application",
+  "offline-first applications",
   "generative AI features",
   "React/Next Js frontends",
+  "teams that ship on time",
   "apps people keep",
 ];
 
 export const stats = [
-  { value: "4+", label: "years shipping" },
-  { value: "10+", label: "products in production" },
-  { value: "10+", label: "app stores, zero rejections" },
-  { value: "8", label: "local govts on one app" },
+  { value: "4+", label: "years building & leading" },
+  { value: "2", label: "platforms led end to end" },
+  { value: "10+", label: "store releases, zero rejections" },
+  { value: "8", label: "local govts on one codebase" },
 ];
 
 export type Project = {
@@ -37,12 +38,12 @@ export type Project = {
 export const projects: Project[] = [
   {
     name: "UNFPA Safehouse Case Management",
-    role: "Full-stack developer · YoungInnovations · current",
+    role: "Technical lead · full-stack delivery · YoungInnovations · current",
     badge: "IN DEVELOPMENT",
     spotlight: true,
     accent: "rhodo",
     description:
-      "Case management platform for UNFPA digitizing safehouse workflows for gender-based violence survivors in Nepal. Covers the full case lifecycle — consent, survivor intake, assessments, safety plans, referrals, follow-ups, and closure — behind role-based access across three privilege levels. Fully bilingual English/Nepali interface with an error-key contract so every API error maps to a localized, human message. Privacy-first by design.",
+      "Case management platform for UNFPA digitizing safehouse workflows for gender-based violence survivors in Nepal. I lead full-stack delivery end to end — architecture, data model, API contract, and the roadmap calls in between. Covers the full case lifecycle — consent, survivor intake, assessments, safety plans, referrals, follow-ups, and closure — behind role-based access I designed across three privilege levels. Fully bilingual English/Nepali interface with an error-key contract so every API error maps to a localized, human message. Privacy-first by design, because for this product it was non-negotiable.",
     tags: [
       "NestJS",
       "Prisma",
@@ -61,7 +62,7 @@ export const projects: Project[] = [
     spotlight: true,
     accent: "mango",
     description:
-      "Subscription e-learning platform built around active review and recall. Millions of learning sources and curated courses, with AI-powered generation of learning cards, summaries, and practice materials. I own the offline-first Flutter app end to end — architecture, MongoDB-backed sync, flavors, releases, and store compliance on both platforms.",
+      "Subscription e-learning platform built around active review and recall. Millions of learning sources and curated courses, with AI-powered generation of learning cards, summaries, and practice materials. I own the offline-first Flutter app end to end — architecture, MongoDB-backed sync, flavors, releases, and store compliance on both platforms — and the patterns I set are what the app is built on.",
     tags: [
       "Flutter",
       "Bloc",
@@ -80,10 +81,10 @@ export const projects: Project[] = [
   },
   {
     name: "नागरिक सहभागिता (Citizen Participation)",
-    role: "Developer · deployed for 8 local governments",
+    role: "Mobile developer · deployed for 8 local governments",
     accent: "teal",
     description:
-      "ICT support app for local bodies in Nepal. Citizens submit text or audio grievances to their local government and track status, with updates delivered by email. Built once, deployed for eight municipalities.",
+      "ICT support app for local bodies in Nepal. Citizens submit text or audio grievances to their local government and track status, with updates delivered by email. One early decision — build it configurable, not bespoke — turned a single codebase into eight municipal deployments.",
     tags: ["Flutter", "Civic tech", "Audio", "Email notifications"],
     links: [
       {
@@ -122,10 +123,10 @@ export const projects: Project[] = [
   },
   {
     name: "Generation tooling (npm)",
-    role: "Author · internal developer tools",
+    role: "Author · force multiplier for the team",
     accent: "rhodo",
     description:
-      "npm packages that automate the boring parts — code generation, content generation, and scaffolding of recurring project components — so teams start features from a working baseline, not a blank file.",
+      "npm packages I built to automate the boring parts — code generation, content generation, and scaffolding of recurring project components — so every engineer on the team starts features from a working baseline, not a blank file. Leadership, packaged as tooling.",
     tags: ["Node.js", "TypeScript", "Codegen"],
     links: [{ label: "GitHub", href: "https://github.com/shreedhar73" }],
   },
@@ -144,12 +145,13 @@ export const experience: Job[] = [
     role: "Software Engineer II",
     company: "YoungInnovations",
     bullets: [
-      "Leading full-stack delivery of the UNFPA Safehouse case management platform — NestJS + Prisma + PostgreSQL backend, React (TypeScript) frontend, Clean Architecture with domain-driven modules and JWT auth.",
-      "Designed a consent-driven, multi-step case intake workflow with step-wise API submission and unique case/survivor code generation with collision handling.",
-      "Build and maintain production Flutter apps with Clean Architecture and Bloc; offline-first sync against MongoDB, real-time messaging via Firebase.",
-      "Integrate generative AI into mobile products; advise clients on scope, capability, and limits.",
-      "Adopted AI-assisted engineering workflows (Claude Code with custom project skills and agents) for scaffolding, review, and verification.",
-      "Manage Google Play and App Store releases across multiple projects; mentor juniors and run code-review sessions.",
+      "Lead full-stack delivery of the UNFPA Safehouse case management platform — I own the architecture (NestJS + Prisma + PostgreSQL backend, React + TypeScript frontend, Clean Architecture with domain-driven modules, JWT auth) and the technical decisions behind it.",
+      "Designed the consent-driven, multi-step case intake workflow — step-wise API submission and unique case/survivor code generation with collision handling.",
+      "Lead mobile development on OnlyEver: production Flutter with Clean Architecture and Bloc, offline-first sync against MongoDB, real-time messaging via Firebase.",
+      "Advise clients directly on generative AI scope, capability, and limits — deciding what ships, what waits, and what gets cut.",
+      "Introduced AI-assisted engineering workflows to the team (Claude Code with custom project skills and agents) for scaffolding, review, and verification.",
+      "Own Google Play and App Store releases across multiple projects — versioning, compliance, rollout decisions. Zero rejections to date.",
+      "Mentor junior engineers and run code-review sessions — raising the team's bar is part of the job, not a side quest.",
     ],
   },
   {
@@ -196,6 +198,9 @@ export const skills = [
   "Claude Code",
   "i18next",
   "Offline-first",
+  "Release management",
+  "Mentoring & code review",
+  "Technical leadership",
 ];
 
 export const education = [

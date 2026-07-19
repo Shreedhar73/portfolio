@@ -92,7 +92,7 @@ export default function MobilePage() {
         {/* ---------- hero ---------- */}
         <section className="md-hero">
           <div>
-            <div className="md-kicker">// mobile engineer · Kathmandu</div>
+            <div className="md-kicker">// mobile lead · Kathmandu</div>
             <h1>
               I build apps that survive{" "}
               <span className="grad">bad networks</span> and ship on time.
@@ -100,8 +100,9 @@ export default function MobilePage() {
             <p className="lede">
               4+ years of production Flutter — offline-first architecture, Clean
               Architecture with Bloc, and generative-AI features that earn their
-              place. 10+ apps on Google Play and the App Store, zero store
-              rejections.
+              place. I don&apos;t just write the app: I own the architecture,
+              the releases, and the decisions in between. 10+ apps on Google
+              Play and the App Store, zero store rejections.
             </p>
             <BootLog />
             <div className="md-cta">
@@ -232,7 +233,7 @@ export default function MobilePage() {
                   <span className="key">description</span>
                   <span className="k">:</span>{" "}
                   <span className="v">
-                    Mobile engineer &amp; full-stack builder.
+                    Mobile lead &amp; full-stack builder.
                   </span>
                 </span>
                 <span className="ln">
@@ -261,7 +262,8 @@ export default function MobilePage() {
             <h2>Got an app that has to work where the signal doesn&apos;t?</h2>
             <p>
               Flutter, offline-first sync, native bridges, AI features — from
-              architecture to a clean store release. Let&apos;s build it.
+              architecture to a clean store release. I&apos;ve owned that whole
+              path more than once. Let&apos;s build it.
             </p>
             <div className="md-cta">
               <a className="md-btn primary" href={`mailto:${profile.email}`}>

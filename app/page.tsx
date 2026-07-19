@@ -76,12 +76,14 @@ export default function Home() {
         <Contours />
         <div className="greeting pop">नमस्ते — I&apos;m Shreedhar</div>
         <h1 className="pop" style={{ ['--d' as string]: '.08s' }}>
-          Software built <em>offline-first</em>, shipped on time.
+          I build the product, <em>lead the delivery</em>, and own the release.
         </h1>
         <p className="sub pop" style={{ ['--d' as string]: '.16s' }}>
-          Software engineer in Kathmandu with 4+ years across mobile and full-stack — Flutter
-          apps with offline-first sync, NestJS + React platforms, and generative AI features
-          that earn their place. Currently building a case management platform for UNFPA.
+          Software engineer and technical lead in Kathmandu. 4+ years turning briefs into
+          shipped products — offline-first Flutter, NestJS + React platforms, generative AI
+          that earns its place — and making the architecture, scope, and release calls along
+          the way. Currently leading full-stack delivery of a case management platform for
+          UNFPA.
         </p>
         <div className="ticker mono pop" style={{ ['--d' as string]: '.2s' }}>
           <span className="prompt">$</span> I build <Typewriter words={roles} />
@@ -111,8 +113,9 @@ export default function Home() {
         <div className="tile wide pop" style={{ ['--d' as string]: '.6s' }}>
           <div className="label">Currently</div>
           <div>
-            Leading full-stack delivery of the <strong>UNFPA Safehouse platform</strong> — and
-            when properly offline, walking Himalayan trails.
+            Leading full-stack delivery of the <strong>UNFPA Safehouse platform</strong> —
+            architecture to release, decisions included. When properly offline, walking
+            Himalayan trails.
           </div>
           <a className="tile-link" href="#work">
             What I&apos;m shipping →
@@ -208,8 +211,9 @@ export default function Home() {
           <div id="contact" className="contact-box">
             <h2>Have a product that needs to survive bad networks and good ideas?</h2>
             <p>
-              Flutter, full-stack architecture, AI features that earn their place — or the best
-              trekking season in Nepal. All valid reasons to write.
+              I can build it — or lead the team that does. Flutter, full-stack architecture,
+              AI features that earn their place — or the best trekking season in Nepal. All
+              valid reasons to write.
             </p>
             <div className="cta-row">
               <a className="btn solid" href={`mailto:${profile.email}`}>
