@@ -27,6 +27,13 @@ import {
 
 const MAIN_URL = process.env.NEXT_PUBLIC_MAIN_URL || '/';
 
+const fmtClock = (t: number) => {
+  const h = Math.floor(t / 3600);
+  const m = Math.floor((t % 3600) / 60);
+  const s = Math.floor(t % 60);
+  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+};
+
 /* ------------------------------------------------------------------ */
 /* stations — portfolio sections pinned to orbital radii (units of rs) */
 /* ------------------------------------------------------------------ */
@@ -598,6 +605,8 @@ export default function Gargantua() {
   const rEl = useRef<HTMLSpanElement>(null);
   const tdEl = useRef<HTMLSpanElement>(null);
   const veEl = useRef<HTMLSpanElement>(null);
+  const tauEl = useRef<HTMLSpanElement>(null);
+  const earthEl = useRef<HTMLSpanElement>(null);
   const gaugeEl = useRef<HTMLDivElement>(null);
 
   /* mutable sim state, no re-renders */
@@ -613,6 +622,8 @@ export default function Gargantua() {
     lastY: 0,
     lastPinch: 0,
     idleT: 0,
+    tau: 0,
+    tEarth: 0,
     station: 'approach' as StationId,
   });
 
@@ -835,6 +846,10 @@ export default function Gargantua() {
         s.camR += (s.camRT - s.camR) * k;
         s.incl += (s.inclT - s.incl) * (1 - Math.exp(-dt * 5));
         s.idleT += dt;
+        /* proper time aboard vs coordinate time far away — circular-orbit
+           dilation sqrt(1 - 1.5 rs/r), so the Earth clock pulls ahead */
+        s.tau += dt;
+        s.tEarth += dt / Math.sqrt(Math.max(1 - 1.5 / s.camR, 0.04));
         if (!reduced && s.idleT > 2.5 && !s.dragging) s.aziT += dt * 0.03;
         s.azi += (s.aziT - s.azi) * (1 - Math.exp(-dt * 5));
 
@@ -924,6 +939,8 @@ export default function Gargantua() {
         if (rEl.current) rEl.current.textContent = r.toFixed(2);
         if (tdEl.current) tdEl.current.textContent = td.toFixed(3);
         if (veEl.current) veEl.current.textContent = Math.sqrt(1 / r).toFixed(3);
+        if (tauEl.current) tauEl.current.textContent = fmtClock(s.tau);
+        if (earthEl.current) earthEl.current.textContent = fmtClock(s.tEarth);
         if (gaugeEl.current) {
           const t =
             (Math.log(r) - Math.log(R_MIN)) / (Math.log(R_MAX) - Math.log(R_MIN));
@@ -995,6 +1012,12 @@ export default function Gargantua() {
           </span>
           <span>
             v<sub>esc</sub> <b><span ref={veEl}>0.196</span> c</b>
+          </span>
+          <span className="bh-clock">
+            τ ship <b><span ref={tauEl}>00:00:00</span></b>
+          </span>
+          <span className="bh-clock bh-clock-earth">
+            t earth <b><span ref={earthEl}>00:00:00</span></b>
           </span>
         </div>
       </header>

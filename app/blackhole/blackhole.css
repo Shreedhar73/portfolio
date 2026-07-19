@@ -149,6 +149,12 @@
   font-weight: 600;
   margin-left: 4px;
 }
+.bh-clock b {
+  font-variant-numeric: tabular-nums;
+}
+.bh-clock-earth b {
+  color: var(--bh-amber);
+}
 
 /* ---------- content panel (left) ---------- */
 .bh-panel {
@@ -625,8 +631,13 @@
     padding: 5px 10px;
     font-size: 0.56rem;
   }
+  /* small screens: keep r + the two clocks, drop dτ/dt and v_esc */
+  .bh-telemetry span:nth-child(2),
   .bh-telemetry span:nth-child(3) {
     display: none;
+  }
+  .bh-telemetry .bh-clock {
+    display: inline;
   }
   .bh-brand-main {
     font-size: 0.6rem;
