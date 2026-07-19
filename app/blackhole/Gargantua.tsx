@@ -960,6 +960,9 @@ export default function Gargantua() {
           setStation(best);
         }
         document.documentElement.dataset.bhZone = r < 6.6 ? 'horizon' : 'space';
+        /* continuous gravitational-redshift feel: 0 far out → 1 at R_MIN */
+        const red = Math.min(1, Math.max(0, (11 - r) / (11 - R_MIN)));
+        document.documentElement.style.setProperty('--bh-red', red.toFixed(3));
       }
     };
     raf = requestAnimationFrame(loop);
@@ -975,6 +978,7 @@ export default function Gargantua() {
       canvas.removeEventListener('touchmove', onTouchMove);
       removeEventListener('keydown', onKey);
       delete document.documentElement.dataset.bhZone;
+      document.documentElement.style.removeProperty('--bh-red');
       if (sceneRT) delRT(gl, sceneRT);
       mips.forEach((m) => delRT(gl, m));
       gl.getExtension('WEBGL_lose_context')?.loseContext();
