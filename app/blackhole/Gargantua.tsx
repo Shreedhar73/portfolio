@@ -437,6 +437,23 @@ void main(){
 /* content per station                                                 */
 /* ------------------------------------------------------------------ */
 
+/* hawking radiation: quantum particles escape as the signal transmits */
+function emitHawking(e: React.MouseEvent<HTMLAnchorElement>) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('span');
+    p.className = 'bh-quantum';
+    p.style.left = `${rect.left + Math.random() * rect.width}px`;
+    p.style.top = `${rect.top + rect.height * 0.4}px`;
+    p.style.setProperty('--dx', `${(Math.random() - 0.5) * 160}px`);
+    p.style.setProperty('--dy', `${-80 - Math.random() * 180}px`);
+    p.style.setProperty('--dur', `${0.7 + Math.random() * 0.7}s`);
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 1500);
+  }
+}
+
 function StationContent({ id }: { id: StationId }) {
   if (id === 'approach') {
     return (
@@ -553,7 +570,7 @@ function StationContent({ id }: { id: StationId }) {
         Flutter widget tree and a Postgres query plan.
       </p>
       <div className="bh-contact">
-        <a className="bh-cta" href={`mailto:${profile.email}`}>
+        <a className="bh-cta" href={`mailto:${profile.email}`} onClick={emitHawking}>
           TRANSMIT SIGNAL — {profile.email}
         </a>
         <a className="bh-out" href={profile.github} target="_blank" rel="noopener noreferrer">

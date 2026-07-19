@@ -658,6 +658,26 @@
   box-shadow: 0 0 36px rgba(150, 220, 240, 0.55);
 }
 
+/* hawking radiation particles (appended to body on CTA click) */
+.bh-quantum {
+  position: fixed;
+  z-index: 60;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--bh-glow, #9fdcef);
+  box-shadow: 0 0 8px var(--bh-glow, #9fdcef);
+  pointer-events: none;
+  animation: bh-quantum-escape var(--dur, 1s) cubic-bezier(0.2, 0.6, 0.4, 1)
+    forwards;
+}
+@keyframes bh-quantum-escape {
+  to {
+    transform: translate(var(--dx, 0), var(--dy, -160px)) scale(0.3);
+    opacity: 0;
+  }
+}
+
 /* ---------- descent gauge (right edge) ---------- */
 .bh-gauge {
   top: 110px;
