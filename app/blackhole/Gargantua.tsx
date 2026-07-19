@@ -612,6 +612,7 @@ export default function Gargantua() {
   const [glitchN, setGlitchN] = useState(0);
   const [spag, setSpag] = useState(false);
   const [log, setLog] = useState({ n: 0, text: STATION_LOG.approach });
+  const [photo, setPhoto] = useState(false);
 
   const rEl = useRef<HTMLSpanElement>(null);
   const tdEl = useRef<HTMLSpanElement>(null);
@@ -639,8 +640,13 @@ export default function Gargantua() {
     dopW: 0,
     push: 0,
     spag: false,
+    photo: false,
     station: 'approach' as StationId,
   });
+
+  useEffect(() => {
+    sim.current.photo = photo;
+  }, [photo]);
 
   const warpTo = (id: StationId) => {
     const st = STATIONS.find((s) => s.id === id)!;
@@ -848,6 +854,8 @@ export default function Gargantua() {
       else if (e.key === 'ArrowUp' || e.key === 'w') s.camRT = Math.min(R_MAX, s.camRT * 1.075);
       else if (e.key === 'ArrowLeft') s.aziT -= 0.15;
       else if (e.key === 'ArrowRight') s.aziT += 0.15;
+      else if (e.key === 'h' || e.key === 'H') { setPhoto((p) => !p); return; }
+      else if (e.key === 'Escape') { setPhoto(false); return; }
       else return;
       s.idleT = 0;
     };
@@ -896,7 +904,8 @@ export default function Gargantua() {
            dilation sqrt(1 - 1.5 rs/r), so the Earth clock pulls ahead */
         s.tau += dt;
         s.tEarth += dt / Math.sqrt(Math.max(1 - 1.5 / s.camR, 0.04));
-        if (!reduced && s.idleT > 2.5 && !s.dragging) s.aziT += dt * 0.03;
+        if (!reduced && (s.idleT > 2.5 || s.photo) && !s.dragging)
+          s.aziT += dt * (s.photo ? 0.05 : 0.03);
         s.azi += (s.aziT - s.azi) * (1 - Math.exp(-dt * 5));
 
         /* doppler tint: decays after drag ends; skip writes when settled */
@@ -1044,7 +1053,9 @@ export default function Gargantua() {
   const active = STATIONS.find((s) => s.id === station)!;
 
   return (
-    <div className={`bh-stage ${spag ? 'bh-spaghetti' : ''}`}>
+    <div
+      className={`bh-stage ${spag ? 'bh-spaghetti' : ''} ${photo ? 'bh-photo' : ''}`}
+    >
       <canvas ref={canvasRef} className="bh-canvas" aria-hidden="true" />
       {!glOk && <div className="bh-fallback" aria-hidden="true" />}
       <div className="bh-grain" aria-hidden="true" />
@@ -1091,6 +1102,14 @@ export default function Gargantua() {
           <span className="bh-clock bh-clock-earth">
             t earth <b><span ref={earthEl}>00:00:00</span></b>
           </span>
+          <button
+            className="bh-photo-btn"
+            onClick={() => setPhoto(true)}
+            aria-label="Photo mode — hide interface"
+            title="Photo mode (H)"
+          >
+            ✦
+          </button>
         </div>
       </header>
 
@@ -1157,13 +1176,19 @@ export default function Gargantua() {
       </nav>
 
       <p className="bh-ui bh-hint" aria-hidden="true">
-        drag — orbit&ensp;·&ensp;scroll — descend&ensp;·&ensp;pinch on touch
+        drag — orbit&ensp;·&ensp;scroll — descend&ensp;·&ensp;H — photo mode
       </p>
 
       {/* observer log ticker */}
       <p className="bh-ui bh-log" aria-live="polite" key={log.n}>
         <span>OBSERVER LOG · {log.text}</span>
       </p>
+
+      {photo && (
+        <button className="bh-photo-chip" onClick={() => setPhoto(false)}>
+          EXIT PHOTO MODE — ESC
+        </button>
+      )}
     </div>
   );
 }
