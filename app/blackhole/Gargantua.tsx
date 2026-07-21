@@ -23,6 +23,7 @@ import {
   experience,
   skills,
   education,
+  ai,
 } from '@/data/resume';
 
 const MAIN_URL = process.env.NEXT_PUBLIC_MAIN_URL || '/';
@@ -38,12 +39,13 @@ const fmtClock = (t: number) => {
 /* stations — portfolio sections pinned to orbital radii (units of rs) */
 /* ------------------------------------------------------------------ */
 
-type StationId = 'approach' | 'work' | 'experience' | 'skills' | 'contact';
+type StationId = 'approach' | 'work' | 'ai' | 'experience' | 'skills' | 'contact';
 
 const STATIONS: { id: StationId; r: number; label: string; sub: string }[] = [
   { id: 'approach', r: 26.0, label: 'APPROACH', sub: 'r = 26 rs · parking orbit' },
-  { id: 'work', r: 17.0, label: 'ACCRETION DISK', sub: 'r = 17 rs · work' },
-  { id: 'experience', r: 11.0, label: 'PHOTON SPHERE', sub: 'r = 11 rs · experience' },
+  { id: 'ai', r: 18.5, label: 'RELATIVISTIC JET', sub: 'r = 18.5 rs · ai' },
+  { id: 'work', r: 13.5, label: 'ACCRETION DISK', sub: 'r = 13.5 rs · work' },
+  { id: 'experience', r: 10.0, label: 'PHOTON SPHERE', sub: 'r = 10 rs · experience' },
   { id: 'skills', r: 6.8, label: 'INNER ORBIT', sub: 'r = 6.8 rs · skills' },
   { id: 'contact', r: 5.6, label: 'EVENT HORIZON', sub: 'r = 5.6 rs · contact' },
 ];
@@ -54,6 +56,7 @@ const R_MAX = 34.0;
 const STATION_LOG: Record<StationId, string> = {
   approach: 'stable parking orbit established at 26 rs',
   work: 'matter streams resolved — surveying shipped bodies',
+  ai: 'relativistic jet detected — high-energy AI output collimated along the axis',
   experience: 'photon sphere proximity — careers appear longer from here',
   skills: 'inner orbit — spectrograph reads stable elements',
   contact: 'final stable coordinate — transmission window open',
@@ -463,8 +466,10 @@ function StationContent({ id }: { id: StationId }) {
         <p className="bh-title">{profile.title}</p>
         <p className="bh-copy">
           You are on a stable orbit around a portfolio with enough gravity to
-          bend light. Everything I have shipped is down there, arranged by
-          depth. Scroll to begin the descent — escape is optional.
+          bend light. I don&apos;t just write the code — I lead the delivery,
+          own the releases, mentor the team, and make the calls in between.
+          Everything I have shipped and led is down there, arranged by depth.
+          Scroll to begin the descent — escape is optional.
         </p>
         <div className="bh-stats">
           {stats.map((s) => (
@@ -508,6 +513,30 @@ function StationContent({ id }: { id: StationId }) {
             </article>
           ))}
         </div>
+      </div>
+    );
+  }
+  if (id === 'ai') {
+    return (
+      <div className="bh-station">
+        <p className="bh-kicker">RELATIVISTIC JET · {ai.kicker.toUpperCase()}</p>
+        <h2 className="bh-h">AI, shipped</h2>
+        <p className="bh-copy">{ai.headline}</p>
+        <div className="bh-ai">
+          {ai.tracks.map((t, i) => (
+            <article key={t.title} className="bh-ai-card">
+              <span className="bh-ai-num">0{i + 1}</span>
+              <h3>{t.title}</h3>
+              <p>{t.body}</p>
+              <p className="bh-tags">
+                {t.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </p>
+            </article>
+          ))}
+        </div>
+        <p className="bh-ai-promise">{ai.promise}</p>
       </div>
     );
   }
@@ -814,12 +843,15 @@ export default function Gargantua() {
          jumps that the camera easing then chased in one visible lunge */
       const d = Math.max(-140, Math.min(140, e.deltaY));
       const before = s.camRT;
-      s.camRT = Math.min(R_MAX, Math.max(R_MIN, s.camRT * (1 + d * 0.001)));
+      /* reversed: scroll DOWN (deltaY > 0) descends toward the horizon
+         (camRT shrinks), matching the arrow keys. slower factor so the
+         fall reads as a gentle drift rather than a plunge */
+      s.camRT = Math.min(R_MAX, Math.max(R_MIN, s.camRT * (1 - d * 0.0003)));
       s.idleT = 0;
 
       /* keep pushing past R_MIN: tidal forces win, autopilot bails out.
-         negative deltaY is the descend direction (camRT shrinks) */
-      if (d < 0 && before <= R_MIN + 1e-3 && !s.spag) {
+         descend direction is now positive deltaY (camRT shrinks) */
+      if (d > 0 && before <= R_MIN + 1e-3 && !s.spag) {
         if (++s.push > 7) {
           s.push = 0;
           s.spag = true;
@@ -838,7 +870,7 @@ export default function Gargantua() {
             }, 2400)
           );
         }
-      } else if (d > 0) {
+      } else if (d < 0) {
         s.push = 0;
       }
     };
@@ -914,7 +946,7 @@ export default function Gargantua() {
       }
 
       if (!document.hidden && sceneRT) {
-        const k = 1 - Math.exp(-dt * 2.6);
+        const k = 1 - Math.exp(-dt * 1.6);
         s.camR += (s.camRT - s.camR) * k;
         s.incl += (s.inclT - s.incl) * (1 - Math.exp(-dt * 5));
         s.idleT += dt;

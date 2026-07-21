@@ -2,7 +2,7 @@ import ThemeToggle from '@/components/ThemeToggle';
 import Customizer from '@/components/Customizer';
 import Contours from '@/components/Contours';
 import { KtmClock, ScrollProgress, Reveal, CursorGlow, Typewriter } from '@/components/Fun';
-import { profile, roles, stats, projects, experience, skills, education } from '@/data/resume';
+import { profile, roles, stats, projects, experience, skills, education, ai } from '@/data/resume';
 
 // prod: subdomain (set NEXT_PUBLIC_MOBILE_URL on Vercel). dev: same-origin route.
 const MOBILE_URL = process.env.NEXT_PUBLIC_MOBILE_URL || '/mobile';
@@ -53,6 +53,9 @@ export default function Home() {
           <a className="brand" href="#top">
             SP
           </a>
+          <a className="link" href="#ai">
+            AI
+          </a>
           <a className="link" href="#work">
             Work
           </a>
@@ -82,8 +85,8 @@ export default function Home() {
           Software engineer and technical lead in Kathmandu. 4+ years turning briefs into
           shipped products — offline-first Flutter, NestJS + React platforms, generative AI
           that earns its place — and making the architecture, scope, and release calls along
-          the way. Currently leading full-stack delivery of a case management platform for
-          UNFPA.
+          the way. Currently expanding and refining the feature set of OnlyEver, a live
+          AI-powered e-learning platform.
         </p>
         <div className="ticker mono pop" style={{ ['--d' as string]: '.2s' }}>
           <span className="prompt">$</span> I build <Typewriter words={roles} />
@@ -113,9 +116,9 @@ export default function Home() {
         <div className="tile wide pop" style={{ ['--d' as string]: '.6s' }}>
           <div className="label">Currently</div>
           <div>
-            Leading full-stack delivery of the <strong>UNFPA Safehouse platform</strong> —
-            architecture to release, decisions included. When properly offline, walking
-            Himalayan trails.
+            Expanding the feature set of <strong>OnlyEver</strong> — a live AI-powered
+            e-learning platform I lead on mobile, architecture to release. When properly
+            offline, walking Himalayan trails.
           </div>
           <a className="tile-link" href="#work">
             What I&apos;m shipping →
@@ -124,6 +127,37 @@ export default function Home() {
       </div>
 
       <main className="wrap">
+        <section id="ai" className="ai-sec">
+          <Reveal className="sec-head">
+            <h2>AI, shipped</h2>
+            <span className="count mono">{ai.kicker}</span>
+          </Reveal>
+          <Reveal className="ai-lede">
+            <h3>{ai.headline}</h3>
+            <p>{ai.intro}</p>
+          </Reveal>
+          <div className="ai-grid">
+            {ai.tracks.map((t, i) => (
+              <Reveal key={t.title} className="ai-card" delay={(i % 3) * 0.08}>
+                <div className="ai-num mono">0{i + 1}</div>
+                <h4>{t.title}</h4>
+                <p>{t.body}</p>
+                <div className="tag-row">
+                  {t.tags.map((tag) => (
+                    <span key={tag} className="tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="ai-promise" delay={0.1}>
+            <span className="ai-promise-dot" aria-hidden="true" />
+            <p>{ai.promise}</p>
+          </Reveal>
+        </section>
+
         <section id="work">
           <Reveal className="sec-head">
             <h2>Selected work</h2>

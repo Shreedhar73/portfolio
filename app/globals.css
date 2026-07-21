@@ -1206,3 +1206,112 @@ footer .wrap {
     transform: scaleY(1);
   }
 }
+
+/* ---------- AI section ---------- */
+.ai-sec {
+  position: relative;
+}
+.ai-lede {
+  max-width: 74ch;
+  margin: 4px 0 26px;
+}
+.ai-lede h3 {
+  font-size: clamp(1.35rem, 3.4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  background: linear-gradient(100deg, var(--ink), color-mix(in srgb, var(--accent) 85%, var(--ink)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ai-lede p {
+  color: var(--soft);
+  font-size: 1.02rem;
+}
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 900px) {
+  .ai-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.ai-card {
+  position: relative;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.35s var(--ease), box-shadow 0.35s, border-color 0.25s;
+}
+.ai-card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 20%, transparent));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease);
+}
+.ai-card:hover::before {
+  transform: scaleX(1);
+}
+.ai-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lift);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+}
+.ai-num {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: color-mix(in srgb, var(--accent) 80%, var(--faint));
+}
+.ai-card h4 {
+  font-size: 1.12rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.ai-card p {
+  color: var(--soft);
+  font-size: 0.92rem;
+  flex: 1;
+}
+.ai-promise {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-top: 20px;
+  padding: 20px 24px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--accent) 6%, var(--panel));
+}
+.ai-promise p {
+  color: var(--ink);
+  font-weight: 500;
+  max-width: 80ch;
+}
+.ai-promise-dot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+  animation: ai-pulse 2.4s ease-out infinite;
+}
+@keyframes ai-pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+  70% { box-shadow: 0 0 0 12px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}

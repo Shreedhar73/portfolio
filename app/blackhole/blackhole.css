@@ -559,6 +559,53 @@
   border: 1px solid var(--bh-line);
   padding: 2px 7px;
 }
+.bh-ai {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+.bh-ai-card {
+  position: relative;
+  border: 1px solid var(--bh-line);
+  padding: 14px 14px 14px 16px;
+  background: rgba(4, 6, 12, 0.55);
+}
+.bh-ai-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--bh-amber);
+  opacity: 0.8;
+}
+.bh-ai-num {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--bh-amber);
+}
+.bh-ai-card h3 {
+  margin-top: 4px;
+  font-size: 0.82rem;
+  color: #fff;
+  letter-spacing: 0.03em;
+}
+.bh-ai-card p {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  line-height: 1.7;
+  color: var(--bh-text);
+}
+.bh-ai-promise {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 180, 84, 0.42);
+  background: rgba(255, 180, 84, 0.06);
+  font-size: 0.72rem;
+  line-height: 1.7;
+  color: var(--bh-text);
+}
 .bh-links {
   margin-top: 10px;
   display: flex;

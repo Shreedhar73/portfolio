@@ -1,21 +1,62 @@
-import { profile, projects } from "@/data/resume";
+import { profile, projects, ai } from "@/data/resume";
 import { BootLog, PhoneShowcase, Uptime, Rv, type ScreenApp } from "./fx";
 
 /* presentation meta for the mobile apps, keyed by project name */
 const APP_META: Record<
   string,
-  { initials: string; color: string; status: string }
+  {
+    initials: string;
+    color: string;
+    status: string;
+    image?: string;
+    images?: string[];
+  }
 > = {
-  OnlyEver: { initials: "OE", color: "#6ea8ff", status: "LIVE" },
+  OnlyEver: {
+    initials: "OE",
+    color: "#6ea8ff",
+    status: "LIVE · EXPANDING",
+    images: [
+      "/apps/onlyever.png",
+      "/apps/onlyever-2.png",
+      "/apps/onlyever-store-1.png",
+      "/apps/onlyever-store-2.png",
+      "/apps/onlyever-store-3.png",
+      "/apps/onlyever-store-4.png",
+      "/apps/onlyever-store-5.png",
+      "/apps/onlyever-store-6.png",
+      "/apps/onlyever-store-7.png",
+      "/apps/onlyever-store-8.png",
+    ],
+  },
+  "Label STEP — Weaver Management": {
+    initials: "LS",
+    color: "#34e3c4",
+    status: "DEV LEAD",
+  },
+  "Susasan — Local Governance apps": {
+    initials: "सु",
+    color: "#3ddc84",
+    status: "12+ APPS",
+    image: "/apps/susasan.png",
+  },
+  "ESCR Monitoring": {
+    initials: "ES",
+    color: "#34e3c4",
+    status: "MAINTAINED",
+    image: "/apps/escr.png",
+  },
   "नागरिक सहभागिता (Citizen Participation)": {
     initials: "ना",
     color: "#3ddc84",
     status: "SHIPPED",
+    image: "/apps/nagarik.png",
   },
   "Municipal Association of Nepal": {
     initials: "M",
     color: "#34e3c4",
     status: "SHIPPED",
+    image: "/apps/muan.png",
   },
   "Level Up (25hours Hotels)": {
     initials: "LU",
@@ -37,6 +78,8 @@ const screens: ScreenApp[] = mobileProjects.map((p) => {
     role: p.role.split("·")[0].trim(),
     initials: m?.initials ?? short.slice(0, 2).toUpperCase(),
     color: m?.color ?? "#34e3c4",
+    image: m?.image,
+    images: m?.images,
   };
 });
 
@@ -104,6 +147,12 @@ export default function MobilePage() {
               the releases, and the decisions in between. 10+ apps on Google
               Play and the App Store, zero store rejections.
             </p>
+            <p className="lede">
+              And I lead. Development lead on client builds, mentoring juniors
+              and running code-review sessions, advising clients on generative-AI
+              scope, and making the call on what ships. I raise the team&apos;s
+              bar — that&apos;s part of the job, not a side quest.
+            </p>
             <BootLog />
             <div className="md-cta">
               <a className="md-btn primary" href="#apps">
@@ -127,28 +176,37 @@ export default function MobilePage() {
           </div>
         </section>
 
-        {/* ---------- doctor ---------- */}
-        <section className="md-sec">
+        {/* ---------- AI ---------- */}
+        <section className="md-sec" id="ai">
           <Rv className="md-sec-h">
             <span className="hash">#</span>
-            <h2>flutter doctor</h2>
-            <span className="n">no issues found</span>
+            <h2>ai.build()</h2>
+            <span className="n">{ai.kicker}</span>
           </Rv>
           <Rv>
-            <div className="md-doctor mono">
-              <div className="head">
-                Doctor summary — <b>toolchain &amp; capabilities</b>
-              </div>
-              <div className="md-check">
-                {DOCTOR.map((c) => (
-                  <div className="item" key={c.k}>
-                    <span className="tick">[✓]</span>
-                    <span>
-                      <b>{c.k}</b> <span className="d">— {c.d}</span>
-                    </span>
+            <p className="md-ai-lede">{ai.headline}</p>
+          </Rv>
+          <div className="md-ai-grid">
+            {ai.tracks.map((t, idx) => (
+              <Rv key={t.title} delay={(idx % 3) * 0.08}>
+                <article className="md-ai-card">
+                  <span className="md-ai-num mono">0{idx + 1}</span>
+                  <h3>{t.title}</h3>
+                  <p>{t.body}</p>
+                  <div className="md-pkgs">
+                    {t.tags.map((tag) => (
+                      <span className="md-pkg" key={tag}>
+                        {tag.toLowerCase().replace(/[^a-z0-9]+/g, "_")}
+                      </span>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </article>
+              </Rv>
+            ))}
+          </div>
+          <Rv>
+            <div className="md-ai-promise mono">
+              <span className="tick">$</span> {ai.promise}
             </div>
           </Rv>
         </section>
@@ -206,6 +264,32 @@ export default function MobilePage() {
               );
             })}
           </div>
+        </section>
+
+        {/* ---------- doctor ---------- */}
+        <section className="md-sec">
+          <Rv className="md-sec-h">
+            <span className="hash">#</span>
+            <h2>flutter doctor</h2>
+            <span className="n">no issues found</span>
+          </Rv>
+          <Rv>
+            <div className="md-doctor mono">
+              <div className="head">
+                Doctor summary — <b>toolchain &amp; capabilities</b>
+              </div>
+              <div className="md-check">
+                {DOCTOR.map((c) => (
+                  <div className="item" key={c.k}>
+                    <span className="tick">[✓]</span>
+                    <span>
+                      <b>{c.k}</b> <span className="d">— {c.d}</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Rv>
         </section>
 
         {/* ---------- pubspec ---------- */}

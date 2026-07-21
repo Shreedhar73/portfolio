@@ -95,52 +95,90 @@ export type ScreenApp = {
   role: string;
   initials: string;
   color: string;
+  image?: string;
+  /* multiple screens for one app — cycled in place while it's active */
+  images?: string[];
 };
 
 export function PhoneShowcase({ apps }: { apps: ScreenApp[] }) {
   const [i, setI] = useState(0);
+  const [sub, setSub] = useState(0);
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const id = setInterval(() => setI((v) => (v + 1) % apps.length), 3000);
+    const id = setInterval(() => setI((v) => (v + 1) % apps.length), 3600);
     return () => clearInterval(id);
   }, [apps.length]);
 
+  /* sub-cycle: alternate an app's own screens while it holds the stage */
+  const shots = apps[i]?.images;
+  useEffect(() => {
+    setSub(0);
+    if (!shots || shots.length < 2) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = setInterval(() => setSub((v) => v + 1), 1500);
+    return () => clearInterval(id);
+  }, [i, shots]);
+
   const rows = [0, 1, 2, 3];
+  const cur = apps[i];
+  const curSrc = cur?.images ? cur.images[sub % cur.images.length] : cur?.image;
   return (
     <div className="md-phone-stage">
       <div className="md-phone">
         <div className="notch" />
         <div className="md-screen">
-          <div className="sbar">
-            <span>{apps[i]?.name.split(' ')[0]}</span>
-            <span>▲ 5G ▮▮▮</span>
-          </div>
-          {apps.map((a, idx) => (
+          {!curSrc && (
+            <div className="sbar">
+              <span>{cur?.name.split(' ')[0]}</span>
+              <span>▲ 5G ▮▮▮</span>
+            </div>
+          )}
+          {apps.map((a, idx) => {
+            const src =
+              idx === i
+                ? curSrc
+                : a.images
+                  ? a.images[0]
+                  : a.image;
+            return (
             <div
               key={a.name}
-              className={`md-app${idx === i ? ' on' : ''}`}
+              className={`md-app${idx === i ? ' on' : ''}${src ? ' has-shot' : ''}`}
               style={{ ['--sc' as string]: a.color }}
               aria-hidden={idx !== i}
             >
-              <div className="top">
-                <div className="ico">{a.initials}</div>
-                <div className="nm">{a.name}</div>
-                <div className="rl">{a.role}</div>
-              </div>
-              <div className="body">
-                {rows.map((r) => (
-                  <div className="row" key={r}>
-                    <span className="b" />
-                    <span className="l" />
-                    <span className={`l s`} />
+              {src ? (
+                <img
+                  className="md-shot"
+                  src={src}
+                  alt={`${a.name} — app screen`}
+                  loading="lazy"
+                  draggable={false}
+                />
+              ) : (
+                <>
+                  <div className="top">
+                    <div className="ico">{a.initials}</div>
+                    <div className="nm">{a.name}</div>
+                    <div className="rl">{a.role}</div>
                   </div>
-                ))}
-              </div>
-              <div className="nav">
-                <i /><i /><i /><i />
-              </div>
+                  <div className="body">
+                    {rows.map((r) => (
+                      <div className="row" key={r}>
+                        <span className="b" />
+                        <span className="l" />
+                        <span className={`l s`} />
+                      </div>
+                    ))}
+                  </div>
+                  <div className="nav">
+                    <i /><i /><i /><i />
+                  </div>
+                </>
+              )}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
